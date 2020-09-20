@@ -6,18 +6,18 @@ var z = 0;
 var previousNumHands = 0;
 var currentNumHands = 0;
 
-
 var rawXMin = 1000;
 var rawXMax = 1;
 var rawYMin = 1000;
 var rawYMax = 1;
 
+var OneFrameOfData = nj.zeros([5,4,6]);
+
 Leap.loop(controllerOptions, function(frame)
     {
-        currentNumHands = frame.hands.length;
-        // console.log(previousNumHands);
-        // console.log(currentNumHands);
 
+
+        currentNumHands = frame.hands.length;
         clear();
         HandleFrame(frame);
         if (currentNumHands == 1 && previousNumHands == 2)
@@ -49,14 +49,14 @@ function HandleHand(hand,frame)
         for(var i = 0; i < hand.fingers.length; i++)
         {
             finger = hand.fingers[i];
-            handleBone(finger.bones[j],frame);
+            handleBone(finger.bones[j],frame,i,j);
         }
     }
 
 }
 
 
-function HandleFinger(finger)
+function HandleFinger(finger,frame,fingerIndex)
 {
 
     for(var i = 0; i < finger.bones.length; i++) {
@@ -76,8 +76,8 @@ function HandleFinger(finger)
         // y = finger.tipPosition[1];
 
         //bone stuff
-        // bone = finger.bones[i];
-        // handleBone(bone,frame);
+        bone = finger.bones[i];
+        handleBone(bone,frame);
 
         // Draw Circle
         // y = -y + (window.innerHeight);
@@ -92,7 +92,7 @@ function HandleFinger(finger)
     }
 }
 
-function handleBone(bone,frame)
+function handleBone(bone, frame, fingerIndex, boneIndex)
 {
 
     x = bone.nextJoint[0];
@@ -104,7 +104,7 @@ function handleBone(bone,frame)
     prevy = bone.prevJoint[1];
     prevz = bone.prevJoint[2];
 
-    console.log(bone);
+    //console.log(bone);
     //Draw Circle
 
 
@@ -115,6 +115,18 @@ function handleBone(bone,frame)
     y = -y + (window.innerHeight);
     prevy = -prevy + (window.innerHeight);
     //circle(scaledX, scaledY,50);
+
+    fingerSum = x + y + z + prevx + prevy + prevz;
+
+    //Set Tensor Values
+    OneFrameOfData.set(fingerIndex, boneIndex, 0, prevx);
+    OneFrameOfData.set(fingerIndex, boneIndex, 1, prevy);
+    OneFrameOfData.set(fingerIndex, boneIndex, 2, prevz);
+
+    OneFrameOfData.set(fingerIndex, boneIndex, 3, x);
+    OneFrameOfData.set(fingerIndex, boneIndex, 4, y);
+    OneFrameOfData.set(fingerIndex, boneIndex, 5, z);
+
     if (frame.hands.length == 1) {   //Draw hand Green
         if (bone.type == 0) {
             stroke('rgb(0,220,0)');
@@ -174,22 +186,22 @@ function TransformCoordinates(x,y)
 {
     if (x < rawXMin) {
         rawXMin = x;
-        console.log(rawXMin)
+        //console.log(rawXMin)
 
     }
     if (x > rawXMax) {
         rawXMax = x;
-        console.log(rawXMax)
+        //console.log(rawXMax)
 
     }
     if (y < rawYMin) {
         rawYMin = y;
-        console.log(rawYMin)
+        //console.log(rawYMin)
 
     }
     if (y > rawYMax) {
         rawYMax = y;
-        console.log(rawYMax)
+        //console.log(rawYMax)
     }
     //y = -y + (window.innerHeight);
     //prevy = -prevy + (window.innerHeight);
@@ -203,5 +215,6 @@ function TransformCoordinates(x,y)
 
 function RecordData()
 {
+    console.log(OneFrameOfData.toString())
     background(51);
 }
