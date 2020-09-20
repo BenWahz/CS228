@@ -1,172 +1,103 @@
-var controllerOptions = {};
-var x = 0;
-var y = 0;
-var z = 0;
+var oneFrameOfData = nj.array([[[73.21389, 444.14011,   187.724,  73.21389, 444.14011,   187.724],
+    [73.21389,444.14011,187.724,111.74476, 434.21464,168.942],
+    [111.74476,434.21464,168.942,  137.9762, 427.60832,155.865],
+    [137.9762, 427.60832,   155.865, 156.43467, 422.09709,   148.325]],
+    [[64.34395, 407.19288,   182.743,  96.60386, 358.63802,   128.622],
+        [  96.60386, 358.63802,   128.622, 111.96593, 334.99751,   93.7095],
+        [ 111.96593, 334.99751,   93.7095, 121.71168, 333.04817,   73.4869],
+        [ 121.71168, 333.04817,   73.4869, 128.86643, 338.08146,   59.5949]],
+    [[  55.86838, 405.84942,   175.953,  79.66783, 361.87062,   119.782],
+        [  79.66783, 361.87062,   119.782,  89.07604, 334.09058,    77.602],
+        [  89.07604, 334.09058,    77.602,  97.05331, 329.42607,   52.1588],
+        [  97.05331, 329.42607,   52.1588,   103.382, 332.77345,   35.8281]],
+    [[  47.43723,  410.2806,    169.52,   61.6819, 374.03144,   115.352],
+        [   61.6819, 374.03144,   115.352,  64.36171,   346.385,    75.509],
+        [  64.36171,   346.385,    75.509,  68.30815,  337.5565,   49.9166],
+        [  68.30815,  337.5565,   49.9166,  72.17199, 336.43318,   32.6637]],
+    [[  40.22474,  427.4258,   163.608,  46.39621, 393.55876,   111.835],
+        [  46.39621, 393.55876,   111.835,  40.66886,  376.6751,   80.0063],
+        [  40.66886,  376.6751,   80.0063,  39.06736,  371.2128,   61.6858],
+        [  39.06736,  371.2128,   61.6858,  38.84264, 369.35941,   45.2933]]]);
 
 
+var anotherFrameOfData = nj.array([[[ 361.20602, 582.48064,   99.0061, 361.20602, 582.48064,   99.0061],
+    [ 361.20602, 582.48064,   99.0061, 396.12296, 537.33682,   61.7238],
+    [ 396.12296, 537.33682,   61.7238, 389.72905, 514.77982,   31.3185],
+    [ 389.72905, 514.77982,   31.3185, 379.17554, 502.00023,    10.671]],
+    [[ 341.26299, 547.72024,   108.258, 367.03149, 438.42018,   66.6526],
+        [ 367.03149, 438.42018,   66.6526, 392.89381, 377.63766,   43.2232],
+        [ 392.89381, 377.63766,   43.2232, 408.60281, 351.88575,   26.1623],
+        [ 408.60281, 351.88575,   26.1623, 419.86396, 339.23928,   12.4589]],
+    [[ 320.79725, 543.51005,   106.165, 329.21132,  439.9163,   64.6511],
+        [ 329.21132,  439.9163,   64.6511, 334.93365, 370.46901,   34.6726],
+        [ 334.93365, 370.46901,   34.6726, 341.87951, 338.30346,   13.1207],
+        [ 341.87951, 338.30346,   13.1207, 348.17316, 322.45216,  -2.62392]],
+    [[ 300.63341, 544.88298,   102.762, 292.26364, 454.19598,   64.1195],
+        [ 292.26364, 454.19598,   64.1195, 314.43293, 459.08171,   23.2304],
+        [ 314.43293, 459.08171,   23.2304, 332.27222, 506.72105,   17.7578],
+        [ 332.27222, 506.72105,   17.7578, 338.57986, 538.36801,   25.1116]],
+    [[ 283.08489, 557.83543,   95.8657,  261.0035, 474.94493,    61.349],
+        [  261.0035, 474.94493,    61.349, 274.29718, 478.12791,   28.3478],
+        [ 274.29718, 478.12791,   28.3478, 297.00101, 504.49972,   24.5461],
+        [ 297.00101, 504.49972,   24.5461, 313.78897, 527.84552,   31.3882]]]);
 
 
-var rawXMin = 1000;
-var rawXMax = 1;
-var rawYMin = 1000;
-var rawYMax = 1;
-
-Leap.loop(controllerOptions, function(frame)
-    {
-        clear();
-        //var rand1 = (Math.floor(Math.random()*5)-5); //Had to make values bigger because you could not see the movement from '1'
-        //var rand2 = (Math.floor(Math.random()*5)-5);
-
-
-        HandleFrame(frame);
-
-    }
-);
-
-
-
-function HandleFrame(frame)
+frameIndex = 0;
+frameFlag = 0;
+function draw()
 {
-
-    if (frame.hands.length == 1)
+    if(frameIndex == 100)
     {
-        var hand = frame.hands[0];
-        HandleHand(hand)
-    }
-}
-
-function HandleHand(hand)
-{
-    for(var j = 3; j >= 0; j--)
-    {
-        for(var i = 0; i < hand.fingers.length; i++)
-        {
-            finger = hand.fingers[i];
-            handleBone(finger.bones[j]);
+        frameIndex = 0;
+        if (frameFlag == 0){
+            frameFlag = 1;
+        }else if (frameFlag == 1){
+            frameFlag = 0;
         }
     }
 
-}
-
-
-function HandleFinger(finger)
-{
-
-    for(var i = 0; i < finger.bones.length; i++) {
-
-        // if (y < 0)
-        // {
-        //     y = 0;
-        // }
-        // if (y > window.innerHeight)
-        // {
-        //     y = window.innerHeight;
-        // }
-
-
-        // x = finger.tipPosition[0];
-        // z = finger.tipPosition[2];
-        // y = finger.tipPosition[1];
-
-        //bone stuff
-        bone = finger.bones[i];
-        handleBone(bone);
-
-        // Draw Circle
-        // y = -y + (window.innerHeight);
-        //
-        // oldX = (rawXMax - rawXMin);
-        // oldY = (rawYMax - rawYMin);
-        //
-        // var scaledX = (((x - rawXMin) * (window.innerWidth)) / oldX) + 0;
-        // var scaledY = (((y - rawYMin) * (window.innerHeight)) / oldY) + 0;
-
-        //circle(scaledX, scaledY,50);
-    }
-}
-
-function handleBone(bone)
-{
-
-    x = bone.nextJoint[0];
-    y = bone.nextJoint[1];
-    z = bone.nextJoint[2];
-
-
-    prevx = bone.prevJoint[0];
-    prevy = bone.prevJoint[1];
-    prevz = bone.prevJoint[2];
-
-    console.log(bone);
-    //Draw Circle
-
-
-
-    [x,y] = TransformCoordinates(x,y);
-    [prevx, prevy] = TransformCoordinates(prevx,prevy);
-
-    y = -y + (window.innerHeight);
-    prevy = -prevy + (window.innerHeight);
-    //circle(scaledX, scaledY,50);
-    if(bone.type == 0)
+    clear();
+    for (var i = 0; i < 5; i++)
     {
-        stroke('rgb(220,220,220)');
-        strokeWeight(10);
-        line(x, y, prevx, prevy);
+        for(var j = 0; j < 4; j++)
+        {
+            var xStart = oneFrameOfData.get(i,j,0)
+            var yStart = oneFrameOfData.get(i,j,1)
+            var zStart = oneFrameOfData.get(i,j,2)
+            var xEnd = oneFrameOfData.get(i,j,3)
+            var yEnd = oneFrameOfData.get(i,j,4)
+            var zEnd = oneFrameOfData.get(i,j,5)
 
-    }
-    if (bone.type == 1)
-    {
-        //stroke('rbg(192,192,192)');
-        strokeWeight(7.5);
-        line(x, y, prevx, prevy);
+            // console.log(xStart);
+            // console.log(yStart);
+            // console.log(zStart);
+            // console.log(xEnd);
+            // console.log(yEnd);
+            // console.log(zEnd);
+            //console.log(xStart, yStart, zStart, xEnd, yEnd, zEnd);
 
-    }
-    if (bone.type == 2)
-    {
-        stroke('rgb(150,150,150)');
-        strokeWeight(5);
-        line(x, y, prevx, prevy);
 
-    }
-    if (bone.type == 3)
-    {
-        stroke('rgb(70,70,70)');
-        strokeWeight(2.5);
-        line(x, y, prevx, prevy);
-    }
+            var xStartB = anotherFrameOfData.get(i,j,0)
+            var yStartB = anotherFrameOfData.get(i,j,1)
+            var zStartB = anotherFrameOfData.get(i,j,2)
+            var xEndB = anotherFrameOfData.get(i,j,3)
+            var yEndB = anotherFrameOfData.get(i,j,4)
+            var zEndB = anotherFrameOfData.get(i,j,5)
 
+            //console.log(xStartB, yStartB, zStartB, xEnd, yEnd, zEnd);
+            if(frameFlag % 2 == 0)
+            {
+                line(xStart, yStart, xEnd, yEnd);
+            }else
+            {
+                line(xStartB, yStartB, xEndB, yEndB);
+            }
+
+        }
+    }
+    frameIndex++;
 
 
 }
 
-function TransformCoordinates(x,y)
-{
-    if (x < rawXMin) {
-        rawXMin = x;
-        console.log(rawXMin)
-
-    }
-    if (x > rawXMax) {
-        rawXMax = x;
-        console.log(rawXMax)
-
-    }
-    if (y < rawYMin) {
-        rawYMin = y;
-        console.log(rawYMin)
-
-    }
-    if (y > rawYMax) {
-        rawYMax = y;
-        console.log(rawYMax)
-    }
-    //y = -y + (window.innerHeight);
-    //prevy = -prevy + (window.innerHeight);
-    oldX = (rawXMax - rawXMin);
-    oldY = (rawYMax - rawYMin);
-
-    scaledx = (((x - rawXMin) * (window.innerWidth)) / oldX) + 0;
-    scaledy = (((y - rawYMin) * (window.innerHeight)) / oldY) + 0;
-    return [scaledx,scaledy]
-}
+//draw();

@@ -22,7 +22,7 @@ Leap.loop(controllerOptions, function(frame)
         HandleFrame(frame);
         if (currentNumHands == 1 && previousNumHands == 2)
         {
-            RecordData()
+            RecordData();
         }
 
         previousNumHands = currentNumHands;
