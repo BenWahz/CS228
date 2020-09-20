@@ -3,7 +3,8 @@ var x = 0;
 var y = 0;
 var z = 0;
 
-
+var previousNumHands = 0;
+var currentNumHands = 0;
 
 
 var rawXMin = 1000;
@@ -13,12 +14,19 @@ var rawYMax = 1;
 
 Leap.loop(controllerOptions, function(frame)
     {
+        currentNumHands = frame.hands.length;
+        // console.log(previousNumHands);
+        // console.log(currentNumHands);
+
         clear();
-        //var rand1 = (Math.floor(Math.random()*5)-5); //Had to make values bigger because you could not see the movement from '1'
-        //var rand2 = (Math.floor(Math.random()*5)-5);
-
-
         HandleFrame(frame);
+        if (currentNumHands == 1 && previousNumHands == 2)
+        {
+            RecordData()
+        }
+
+        previousNumHands = currentNumHands;
+
 
     }
 );
@@ -28,21 +36,20 @@ Leap.loop(controllerOptions, function(frame)
 function HandleFrame(frame)
 {
 
-    if (frame.hands.length == 1)
-    {
+    if (frame.hands.length >= 1) {
         var hand = frame.hands[0];
-        HandleHand(hand)
+        HandleHand(hand,frame)
     }
 }
 
-function HandleHand(hand)
+function HandleHand(hand,frame)
 {
     for(var j = 3; j >= 0; j--)
     {
         for(var i = 0; i < hand.fingers.length; i++)
         {
             finger = hand.fingers[i];
-            handleBone(finger.bones[j]);
+            handleBone(finger.bones[j],frame);
         }
     }
 
@@ -69,8 +76,8 @@ function HandleFinger(finger)
         // y = finger.tipPosition[1];
 
         //bone stuff
-        bone = finger.bones[i];
-        handleBone(bone);
+        // bone = finger.bones[i];
+        // handleBone(bone,frame);
 
         // Draw Circle
         // y = -y + (window.innerHeight);
@@ -85,7 +92,7 @@ function HandleFinger(finger)
     }
 }
 
-function handleBone(bone)
+function handleBone(bone,frame)
 {
 
     x = bone.nextJoint[0];
@@ -108,34 +115,57 @@ function handleBone(bone)
     y = -y + (window.innerHeight);
     prevy = -prevy + (window.innerHeight);
     //circle(scaledX, scaledY,50);
-    if(bone.type == 0)
-    {
-        stroke('rgb(220,220,220)');
-        strokeWeight(10);
-        line(x, y, prevx, prevy);
+    if (frame.hands.length == 1) {   //Draw hand Green
+        if (bone.type == 0) {
+            stroke('rgb(0,220,0)');
+            strokeWeight(14);
+            line(x, y, prevx, prevy);
 
-    }
-    if (bone.type == 1)
-    {
-        //stroke('rbg(192,192,192)');
-        strokeWeight(7.5);
-        line(x, y, prevx, prevy);
+        }
+        if (bone.type == 1) {
+            //stroke('rbg(192,192,192)');
+            strokeWeight(11);
+            line(x, y, prevx, prevy);
 
-    }
-    if (bone.type == 2)
-    {
-        stroke('rgb(150,150,150)');
-        strokeWeight(5);
-        line(x, y, prevx, prevy);
+        }
+        if (bone.type == 2) {
+            stroke('rgb(0,150,0)');
+            strokeWeight(8);
+            line(x, y, prevx, prevy);
 
+        }
+        if (bone.type == 3) {
+            stroke('rgb(0,70,0)');
+            strokeWeight(5);
+            line(x, y, prevx, prevy);
+        }
     }
-    if (bone.type == 3)
+    else //Draw hand Red
     {
-        stroke('rgb(70,70,70)');
-        strokeWeight(2.5);
-        line(x, y, prevx, prevy);
-    }
+        if (bone.type == 0) {
+            stroke('rgb(220,0,0)');
+            strokeWeight(14);
+            line(x, y, prevx, prevy);
 
+        }
+        if (bone.type == 1) {
+            //stroke('rbg(192,192,192)');
+            strokeWeight(11);
+            line(x, y, prevx, prevy);
+
+        }
+        if (bone.type == 2) {
+            stroke('rgb(150,0,0)');
+            strokeWeight(8);
+            line(x, y, prevx, prevy);
+
+        }
+        if (bone.type == 3) {
+            stroke('rgb(70,0,0)');
+            strokeWeight(5);
+            line(x, y, prevx, prevy);
+        }
+    }
 
 
 }
@@ -169,4 +199,9 @@ function TransformCoordinates(x,y)
     scaledx = (((x - rawXMin) * (window.innerWidth)) / oldX) + 0;
     scaledy = (((y - rawYMin) * (window.innerHeight)) / oldY) + 0;
     return [scaledx,scaledy]
+}
+
+function RecordData()
+{
+    background(51);
 }
