@@ -154,6 +154,8 @@ var irisData = nj.array([[	5.1	,	3.5	,	1.4	,	0.2	],
 var numSamples = irisData.shape[0];
 var numFeatures = irisData.shape[1]-1;
 
+var testingSampleIndex = 1;
+
 var trainingCompleted = false;
 
 function draw()
@@ -176,7 +178,12 @@ function draw()
 
 function GotResults(err, result)
 {
-    console.log("Result", result.label);
+    console.log(testingSampleIndex + 1, parseInt(result.label));
+    testingSampleIndex += 2;
+    if (testingSampleIndex > numSamples)
+    {
+        testingSampleIndex = 1;
+    }
 }
 
 function Train()
@@ -187,19 +194,25 @@ function Train()
     {
 
         var currentFeatures = irisData.pick(i).slice([0,4]);
-        var currentLabel = irisData.get(i,4); //classLabel
+        var currentLabel = irisData.get(i,-1); //classLabel
         knnClassifier.addExample(currentFeatures.tolist(), currentLabel);
-        //console.log(i, currentFeatures.toString(), currentLabel);
+        console.log(i, currentFeatures.toString(), currentLabel);
     }
     trainingCompleted = true;
 }
 
 function Test()
 {
-    var currentFeatures = irisData.pick(i).slice([0,4]);
-    var currentLabel = irisData.get(i,4); //classLabel
-    var predictedLabel = knnClassifier.classify(currentFeatures.tolist(), GotResults);
     console.log("I am testing");
+
+    var currentFeatures = irisData.pick(testingSampleIndex).slice([0,4]);
+    var currentLabel = irisData.get(testingSampleIndex,-1); //classLabel
+    var predictedLabel = knnClassifier.classify(currentFeatures.tolist(), GotResults);
+    //console.log(currentFeatures.toString(), currentLabel);
+
+
+
+
     // for(j = 0; j < numSamples - 1; j+=2)
     // {
     // console.log(j, irisData.pick(j).slice([0,5]).toString());
