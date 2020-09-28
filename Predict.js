@@ -167,30 +167,45 @@ function draw()
 
     }
 
-    // Test();
+    Test();
 
     // console.log(irisData.toString());
     // console.log(numSamples);
     // console.log(numFeatures);
 }
 
+function GotResults(err, result)
+{
+    console.log("Result", result.label);
+}
+
 function Train()
 {
     console.log("I am being trained")
+    //should be odds
     for(i = 0; i < numSamples; i+=2)
     {
-        var currentFeatures = irisData.pick(i).slice([0,4])
-        var currentLabel = irisData.get(i,4);
-        knnClassifier.addExample(currentFeatures.tolist(), currentLabel)
-        console.log(i, irisData.pick(i).slice([0,5]).toString(), currentFeatures.toString(), currentLabel);
 
+        var currentFeatures = irisData.pick(i).slice([0,4]);
+        var currentLabel = irisData.get(i,4); //classLabel
+        knnClassifier.addExample(currentFeatures.tolist(), currentLabel);
+        //console.log(i, currentFeatures.toString(), currentLabel);
     }
     trainingCompleted = true;
 }
 
 function Test()
 {
-    console.log("I am testing")
+    var currentFeatures = irisData.pick(i).slice([0,4]);
+    var currentLabel = irisData.get(i,4); //classLabel
+    var predictedLabel = knnClassifier.classify(currentFeatures.tolist(), GotResults);
+    console.log("I am testing");
+    // for(j = 0; j < numSamples - 1; j+=2)
+    // {
+    // console.log(j, irisData.pick(j).slice([0,5]).toString());
+    // }
+    //console.log(149, irisData.pick(149).slice([0,5]).toString());
+
 }
 
 //draw();
