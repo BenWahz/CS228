@@ -154,17 +154,16 @@ var irisData = nj.array([[	5.1	,	3.5	,	1.4	,	0.2	],
 var numSamples = irisData.shape[0];
 var numFeatures = (irisData.shape[1])-1;
 
-var testingSampleIndex = 0;
+var testingSampleIndex = 1;
 
 var trainingCompleted = false;
 
 var predictedClassLabels = nj.zeros([numSamples]);
 
+
 function draw()
 {
-
     clear();
-
     if (trainingCompleted == false)
     {
         Train();
@@ -178,17 +177,18 @@ function draw()
     // console.log(numFeatures);
 }
 
+
 function GotResults(err, result)
 {
     //console.log(testingSampleIndex + 1, parseInt(result.label));
-
+    predictedClassLabels[testingSampleIndex] = parseInt(result.label);
     testingSampleIndex += 2;
     if (testingSampleIndex > numSamples)
     {
         testingSampleIndex = 1;
     }
 
-    predictedClassLabels[testingSampleIndex] = parseInt(result.label);
+
 
 }
 
@@ -198,7 +198,6 @@ function Train()
     //should be odds
     for(i = 0; i < numSamples; i+=2)
     {
-
         var currentFeatures = irisData.pick(i).slice([0,2]);
         var currentLabel = irisData.get(i,-1); //classLabel
         knnClassifier.addExample(currentFeatures.tolist(), currentLabel);
@@ -236,7 +235,7 @@ function drawCircles()
         var y = irisData.get(i,1);
         var c = irisData.get(i,-1);
         c = parseInt(c);
-        console.log(c);
+        //console.log(c);
 
         if(i % 2 == 0)
         {
@@ -245,25 +244,25 @@ function drawCircles()
         }else
         {
             //outline
-            if(c == 0)
+            if(predictedClassLabels[i] === 0)
             {
                 stroke('rgb(255,0,0)');
-            }else if (c == 1)
+            }else if(predictedClassLabels[i] === 1)
             {
                 stroke('rgb(0,0,255)');
-            }else if (c == 2)
+            }else if (predictedClassLabels[i] === 2)
             {
                 stroke('rgb(0,255,0)');
             }
         }
         //interior
-        if(c == 0)
+        if(c === 0)
         {
             fill('rgb(255,0,0)');
-        }else if (c == 1)
+        }else if (c === 1)
         {
             fill('rgb(0,0,255)');
-        }else if (c == 2)
+        }else if (c === 2)
         {
             fill('rgb(0,255,0)');
         }
@@ -272,8 +271,9 @@ function drawCircles()
 
 
 
-        //circle(x*100,y*100,8);
-        console.log(predictedClassLabels);
+        circle(x*100,y*100,8);
+
+        //console.log(predictedClassLabels);
     }
 }
 //draw();
