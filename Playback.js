@@ -95,6 +95,7 @@ function draw()
 
         }
     }
+    console.log(frameFlag)
     frameIndex++;
 
 
