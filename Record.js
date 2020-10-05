@@ -35,21 +35,21 @@ Leap.loop(controllerOptions, function(frame)
 
 function HandleFrame(frame)
 {
-
+    var InteractionBox = frame.InteractionBox;
     if (frame.hands.length >= 1) {
         var hand = frame.hands[0];
-        HandleHand(hand,frame)
+        HandleHand(hand,frame, InteractionBox)
     }
 }
 
-function HandleHand(hand,frame)
+function HandleHand(hand,frame,InteractionBox)
 {
     for(var j = 3; j >= 0; j--)
     {
         for(var i = 0; i < hand.fingers.length; i++)
         {
             finger = hand.fingers[i];
-            handleBone(finger.bones[j],frame,i,j);
+            handleBone(finger.bones[j],frame,i,j,InteractionBox);
         }
     }
 
@@ -92,40 +92,68 @@ function HandleFinger(finger,frame,fingerIndex)
     }
 }
 
-function handleBone(bone, frame, fingerIndex, boneIndex)
+function handleBone(bone, frame, fingerIndex, boneIndex, InteractionBox)
 {
 
-    x = bone.nextJoint[0];
-    y = bone.nextJoint[1];
-    z = bone.nextJoint[2];
 
 
-    prevx = bone.prevJoint[0];
-    prevy = bone.prevJoint[1];
-    prevz = bone.prevJoint[2];
+    //circle(scaledX, scaledY,50);
+
+    //fingerSum = x + y + z + prevx + prevy + prevz;
+
+    var normalizedNextJoint = frame.interactionBox.normalizePoint(bone.nextJoint,true);
+    var normalizedPrevJoint = frame.interactionBox.normalizePoint(bone.prevJoint,true);
+    // console.log("next joint:");
+    // console.log(normalizedNextJoint);
+    // console.log("Prev joint")
+    // console.log(normalizedPrevJoint);
+
+    //Set Tensor Values
+    OneFrameOfData.set(fingerIndex, boneIndex, 0, normalizedNextJoint[0]);
+    OneFrameOfData.set(fingerIndex, boneIndex, 1, normalizedNextJoint[1]);
+    OneFrameOfData.set(fingerIndex, boneIndex, 3, normalizedPrevJoint[0]);
+    OneFrameOfData.set(fingerIndex, boneIndex, 4, normalizedPrevJoint[1]);
+   // OneFrameOfData.set(fingerIndex, boneIndex, 2, prevz);
+
+   //  OneFrameOfData.set(fingerIndex, boneIndex, 3, x);
+   //  OneFrameOfData.set(fingerIndex, boneIndex, 4, y);
+   // OneFrameOfData.set(fingerIndex, boneIndex, 5, z);
+
+    // y = -y + (window.innerHeight);
+    // prevy = -prevy + (window.innerHeight);
+
+    //console.log(OneFrameOfData.toString());
+
+    var nextCanvasX = window.innerWidth * normalizedNextJoint[0];
+    var nextCanvasY = window.innerHeight * (1-normalizedNextJoint[1]);
+    var prevCanvasX = window.innerWidth * normalizedPrevJoint[0];
+    var prevCanvasY = window.innerHeight * (1-normalizedPrevJoint[1]);
+
+    // console.log(nextCanvasX);
+    // console.log(prevCanvasY);
+
+    var prevx = prevCanvasX;
+    var prevy = prevCanvasY;
+   // z = bone.nextJoint[2];
+
+
+    var x = nextCanvasX;
+    var y = nextCanvasY;
+    //prevz = bone.prevJoint[2];
+
 
     //console.log(bone);
     //Draw Circle
 
 
 
-    [x,y] = TransformCoordinates(x,y);
-    [prevx, prevy] = TransformCoordinates(prevx,prevy);
+    // [x,y] = TransformCoordinates(x,y);
+    // [prevx, prevy] = TransformCoordinates(prevx,prevy);
 
-    y = -y + (window.innerHeight);
-    prevy = -prevy + (window.innerHeight);
-    //circle(scaledX, scaledY,50);
 
-    fingerSum = x + y + z + prevx + prevy + prevz;
 
-    //Set Tensor Values
-    OneFrameOfData.set(fingerIndex, boneIndex, 0, prevx);
-    OneFrameOfData.set(fingerIndex, boneIndex, 1, prevy);
-    OneFrameOfData.set(fingerIndex, boneIndex, 2, prevz);
 
-    OneFrameOfData.set(fingerIndex, boneIndex, 3, x);
-    OneFrameOfData.set(fingerIndex, boneIndex, 4, y);
-    OneFrameOfData.set(fingerIndex, boneIndex, 5, z);
+
 
     if (frame.hands.length == 1) {   //Draw hand Green
         if (bone.type == 0) {
