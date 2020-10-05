@@ -1,3 +1,5 @@
+nj.config.printThreshold = 1000;
+
 var controllerOptions = {};
 var x = 0;
 var y = 0;
@@ -11,7 +13,12 @@ var rawXMax = 1;
 var rawYMin = 1000;
 var rawYMax = 1;
 
-var OneFrameOfData = nj.zeros([5,4,6]);
+var numSamples = 2;
+var currentSample = 0;
+
+var framesOfData = nj.zeros([5,4,6,numSamples]);
+
+
 
 Leap.loop(controllerOptions, function(frame)
     {
@@ -20,10 +27,9 @@ Leap.loop(controllerOptions, function(frame)
         currentNumHands = frame.hands.length;
         clear();
         HandleFrame(frame);
-        if (currentNumHands == 1 && previousNumHands == 2)
-        {
-            RecordData();
-        }
+
+        RecordData();
+
 
         previousNumHands = currentNumHands;
 
@@ -109,20 +115,22 @@ function handleBone(bone, frame, fingerIndex, boneIndex, InteractionBox)
     // console.log(normalizedPrevJoint);
 
     //Set Tensor Values
-    OneFrameOfData.set(fingerIndex, boneIndex, 0, normalizedNextJoint[0]);
-    OneFrameOfData.set(fingerIndex, boneIndex, 1, normalizedNextJoint[1]);
-    OneFrameOfData.set(fingerIndex, boneIndex, 3, normalizedPrevJoint[0]);
-    OneFrameOfData.set(fingerIndex, boneIndex, 4, normalizedPrevJoint[1]);
-   // OneFrameOfData.set(fingerIndex, boneIndex, 2, prevz);
+    framesOfData.set(fingerIndex, boneIndex, 0, currentSample, normalizedNextJoint[0]);
+    framesOfData.set(fingerIndex, boneIndex, 1, currentSample ,normalizedNextJoint[1]);
+    framesOfData.set(fingerIndex, boneIndex, 2, currentSample, 1);
+    framesOfData.set(fingerIndex, boneIndex, 3, currentSample, normalizedPrevJoint[0]);
+    framesOfData.set(fingerIndex, boneIndex, 4, currentSample, normalizedPrevJoint[1]);
+    framesOfData.set(fingerIndex, boneIndex, 5, currentSample, 1);
+   // framesOfData.set(fingerIndex, boneIndex, 2, prevz);
 
-   //  OneFrameOfData.set(fingerIndex, boneIndex, 3, x);
-   //  OneFrameOfData.set(fingerIndex, boneIndex, 4, y);
-   // OneFrameOfData.set(fingerIndex, boneIndex, 5, z);
+   //  framesOfData.set(fingerIndex, boneIndex, 3, x);
+   //  framesOfData.set(fingerIndex, boneIndex, 4, y);
+   // framesOfData.set(fingerIndex, boneIndex, 5, z);
 
     // y = -y + (window.innerHeight);
     // prevy = -prevy + (window.innerHeight);
 
-    //console.log(OneFrameOfData.toString());
+    //console.log(framesOfData.toString());
 
     var nextCanvasX = window.innerWidth * normalizedNextJoint[0];
     var nextCanvasY = window.innerHeight * (1-normalizedNextJoint[1]);
@@ -243,6 +251,27 @@ function TransformCoordinates(x,y)
 
 function RecordData()
 {
-    console.log(OneFrameOfData.toString())
-    background(51);
+    //console.log(framesOfData.toString())
+
+    if(currentNumHands == 2)
+    {
+        currentSample++;
+
+    }
+
+    if (currentSample == numSamples)
+    {
+        currentSample = 0;
+    }
+
+    if (currentNumHands == 1 && previousNumHands == 2)
+    {
+        //console.log(currentSample);
+        //console.log(framesOfData.toString())
+        console.log(framesOfData.toString());
+    }
+
+
+
+
 }
