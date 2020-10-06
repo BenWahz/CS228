@@ -171,7 +171,7 @@ function draw()
     }
 
     Test();
-    drawCircles();
+    //drawCircles();
     // console.log(irisData.toString());
     // console.log(numSamples);
     // console.log(numFeatures);
