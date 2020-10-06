@@ -13,7 +13,7 @@ var rawXMax = 1;
 var rawYMin = 1000;
 var rawYMax = 1;
 
-var numSamples = 2;
+var numSamples = 100;
 var currentSample = 0;
 
 var framesOfData = nj.zeros([5,4,6,numSamples]);
