@@ -72,7 +72,7 @@ function Test()
 function GotResults(err, result)
 {
     predictedClassLabels[err] = parseInt(result.label);
-    ++testingSampleIndex;
+    testingSampleIndex++;
     if (testingSampleIndex > numSamples)
     {
         testingSampleIndex = 0;
