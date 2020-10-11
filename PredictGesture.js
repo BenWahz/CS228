@@ -14,6 +14,10 @@ var trainingCompleted = false;
 
 var oneFrameOfData = nj.zeros([5,4,6]);
 
+
+var mean_pred_accuracy = 0;
+var num_predictions = 0;
+
 //var predictedClassLabels = nj.zeros([numSamples]);
 
 
@@ -37,7 +41,7 @@ Leap.loop(controllerOptions, function(frame)
 function Train()
 {
     console.log("I am being trained")
-    for(var i = 0; i < 2; i++)
+    for(var i = 0; i < train9.shape[3]; i++)
     {
         var features = train9.pick(null,null,null,i);
         features = features.reshape(120).tolist();
@@ -66,6 +70,7 @@ function Test()
         //var currentLabel = test.get(testingSampleIndex,-1); //classLabel
         var predictedLabel = knnClassifier.classify(currentTestingSample, GotResults);
 
+
         //console.log(currentTestingSample);
     //}
 
@@ -74,12 +79,18 @@ function Test()
 function GotResults(err, result)
 {
     predictedClassLabels[err] = parseInt(result.label);
-    // testingSampleIndex++;
-    // if (testingSampleIndex > numSamples)
-    // {
-    //     testingSampleIndex = 0;
-    // }
-    console.log(parseInt(result.label));
+
+    //n = num_predictions
+    //m = mean_pred_accuracy
+    //c =
+
+    num_predictions++;
+    mean_pred_accuracy = (((num_predictions - 1)*mean_pred_accuracy) + (result.label==9))/num_predictions
+
+    //log n
+    //log m
+    //log c
+    console.log(num_predictions, mean_pred_accuracy, parseInt(result.label));
 }
 
 //draw();
