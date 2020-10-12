@@ -43,18 +43,27 @@ function Train()
     console.log("I am being trained")
     for(var i = 0; i < train9.shape[3]; i++)
     {
+        //TRAIN 9
         var features = train9.pick(null,null,null,i);
         //CenterData();
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 9);
         console.log(features);
 
+        //TRAIN 1
         features = train1.pick(null,null,null,i);
         //CenterData();
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 1);
         console.log(features);
         //console.log(features);
+
+        //TRAIN 4
+        var features = train4.pick(null,null,null,i);
+        //CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 4);
+        console.log(features);
     }
     console.log("I have been trained")
 
@@ -88,7 +97,7 @@ function GotResults(err, result)
     //c =
 
     num_predictions++;
-    mean_pred_accuracy = (((num_predictions - 1)*mean_pred_accuracy) + (result.label==9))/num_predictions
+    mean_pred_accuracy = (((num_predictions - 1)*mean_pred_accuracy) + (result.label==4))/num_predictions
 
     //log n
     //log m
