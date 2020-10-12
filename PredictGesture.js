@@ -44,11 +44,13 @@ function Train()
     for(var i = 0; i < train9.shape[3]; i++)
     {
         var features = train9.pick(null,null,null,i);
+        //CenterData();
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 9);
         console.log(features);
 
         features = train1.pick(null,null,null,i);
+        //CenterData();
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 1);
         console.log(features);
@@ -66,6 +68,7 @@ function Test()
     // for(var i = 0; i < 2; i++)
     // {
         var currentTestingSample = oneFrameOfData.pick(null,null,null,0);
+        CenterData();
         currentTestingSample = currentTestingSample.reshape(120).tolist();
         //var currentLabel = test.get(testingSampleIndex,-1); //classLabel
         var predictedLabel = knnClassifier.classify(currentTestingSample, GotResults);
@@ -232,4 +235,83 @@ function TransformCoordinates(x,y)
     scaledx = (((x - rawXMin) * (window.innerWidth)) / oldX) + 0;
     scaledy = (((y - rawYMin) * (window.innerHeight)) / oldY) + 0;
     return [scaledx,scaledy]
+}
+
+function CenterData()
+{
+    CenterXData();
+    CenterYData();
+    CenterZData();
+}
+function CenterXData()
+{
+    xValues = oneFrameOfData.slice([],[],[0,6,3]);
+    var currentXMean = xValues.mean();
+    var horizontalShift = 0.5 - currentXMean;
+    //console.log(currentXMean);
+    for(i = 0; i < 5; i++)
+    {
+        for(j = 0; j < 4; j++)
+        {
+            var currentX = oneFrameOfData.get(i,j,0);
+            var shiftedX = currentX + horizontalShift;
+            oneFrameOfData.set(i,j,0, shiftedX);
+
+            currentX = oneFrameOfData.get(i,j,3);
+            shiftedX = currentX + horizontalShift;
+            oneFrameOfData.set(i,j,3, shiftedX);
+
+            //console.log(currentX, shiftedX);
+        }
+    }
+
+    currentXMean = xValues.mean();
+    //console.log("after");
+    //console.log(currentXMean);
+}
+function CenterYData()
+{
+    yValues = oneFrameOfData.slice([],[],[1,6,3]);
+    var currentYMean = yValues.mean();
+    var verticalShift = 0.5 - currentYMean;
+    //console.log(currentYMean);
+    for(i = 0; i < 5; i++)
+    {
+        for(j = 0; j < 4; j++)
+        {
+            var currentY = oneFrameOfData.get(i,j,1);
+            var shiftedY = currentY + verticalShift;
+            oneFrameOfData.set(i,j,1, shiftedY);
+
+            currentY = oneFrameOfData.get(i,j,4);
+            shiftedY = currentY + verticalShift;
+            oneFrameOfData.set(i,j,4, shiftedY);
+        }
+    }
+    currentYMean = yValues.mean();
+    //console.log(currentYMean);
+}
+function CenterZData()
+{
+    zValues = oneFrameOfData.slice([],[],[2,6,3]);
+    var currentZMean = zValues.mean();
+    var zShift = 0.5 - currentZMean;
+    //console.log(currentZMean);
+    for(i = 0; i < 5; i++)
+    {
+        for(j = 0; j < 4; j++)
+        {
+            var currentZ = oneFrameOfData.get(i,j,2);
+            var shiftedZ = currentZ + zShift;
+            oneFrameOfData.set(i,j,2, shiftedZ);
+
+            currentZ = oneFrameOfData.get(i,j,5);
+            shiftedZ = currentZ + zShift;
+            oneFrameOfData.set(i,j,5, shiftedZ);
+            //console.log(currentZ, shiftedZ);
+        }
+    }
+    currentZMean = zValues.mean();
+    //console.log('after');
+    //console.log(currentZMean);
 }
