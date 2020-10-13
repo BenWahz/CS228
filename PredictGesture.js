@@ -43,27 +43,78 @@ function Train()
     console.log("I am being trained")
     for(var i = 0; i < train9.shape[3]; i++)
     {
-        //TRAIN 9
-        var features = train9.pick(null,null,null,i);
-        //CenterData();
+        //TRAIN 0
+        var features = train0.pick(null,null,null,i);
+        CenterData();
         features = features.reshape(120).tolist();
-        knnClassifier.addExample(features, 9);
+        knnClassifier.addExample(features, 0);
         console.log(features);
-
+        
         //TRAIN 1
         features = train1.pick(null,null,null,i);
-        //CenterData();
+        CenterData();
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 1);
         console.log(features);
         //console.log(features);
 
+        //TRAIN 2
+        features = train2.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 2);
+        console.log(features);
+        
+        //TRAIN 3
+        features = train3.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 3);
+        console.log(features);
+
         //TRAIN 4
-        var features = train4.pick(null,null,null,i);
-        //CenterData();
+        features = train4.pick(null,null,null,i);
+        CenterData();
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 4);
         console.log(features);
+
+        //TRAIN 5
+        features = train5.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 5);
+        console.log(features);
+
+        //TRAIN 6
+        features = train6.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 6);
+        console.log(features);
+
+        //TRAIN 7
+        features = train7.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 7);
+        console.log(features);
+
+        //TRAIN 8
+        features = train8.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 8);
+        console.log(features);
+        
+        //TRAIN 9
+        features = train9.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 9);
+        console.log(features);
+        
+        
     }
     console.log("I have been trained")
 
@@ -97,7 +148,7 @@ function GotResults(err, result)
     //c =
 
     num_predictions++;
-    mean_pred_accuracy = (((num_predictions - 1)*mean_pred_accuracy) + (result.label==4))/num_predictions
+    mean_pred_accuracy = (((num_predictions - 1)*mean_pred_accuracy) + (parseInt(result.label)==8))/num_predictions
 
     //log n
     //log m
