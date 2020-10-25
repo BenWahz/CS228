@@ -50,11 +50,23 @@ function Train()
         knnClassifier.addExample(features, 0);
         console.log(features);
 
-        features = train0Croxford.pick(null,null,null,i);
+        features = train0Wills.pick(null,null,null,i);
         CenterData();
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 0);
         console.log(features);
+
+        // features = train0ReckordGroten.pick(null,null,null,i);
+        // CenterData();
+        // features = features.reshape(120).tolist();
+        // knnClassifier.addExample(features, 0);
+        // console.log(features);
+
+        // features = train0Croxford.pick(null,null,null,i);
+        // CenterData();
+        // features = features.reshape(120).tolist();
+        // knnClassifier.addExample(features, 0);
+        // console.log(features);
 
         // features = train0Rielly.pick(null,null,null,i);
         // CenterData();
@@ -76,6 +88,12 @@ function Train()
         console.log(features);
 
         features = train1Wolley.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 1);
+        console.log(features);
+
+        features = train1Allison.pick(null,null,null,i);
         CenterData();
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 1);
@@ -157,6 +175,30 @@ function Train()
         knnClassifier.addExample(features, 4);
         console.log(features);
 
+        features = train4Makovsky.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 4);
+        console.log(features);
+
+        features = train4Faucher.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 4);
+        console.log(features);
+
+        // features = train4Sheboy.pick(null,null,null,i);
+        // CenterData();
+        // features = features.reshape(120).tolist();
+        // knnClassifier.addExample(features, 4);
+        // console.log(features);
+
+        // features = train4Bongard.pick(null,null,null,i);
+        // CenterData();
+        // features = features.reshape(120).tolist();
+        // knnClassifier.addExample(features, 4);
+        // console.log(features);
+
         //TRAIN 5
         features = train5.pick(null,null,null,i);
         CenterData();
@@ -164,8 +206,14 @@ function Train()
         knnClassifier.addExample(features, 5);
         console.log(features);
 
+        features = train5Fekert.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 5);
+        console.log(features);
+
         //TRAIN 6
-        features = train6.pick(null,null,null,i);
+        features = train6.pick(null,null,null,i); //Potts
         CenterData();
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 6);
