@@ -460,10 +460,10 @@ function handleBone(bone, frame, fingerIndex, boneIndex, InteractionBox)
     //Set Tensor Values
     oneFrameOfData.set(fingerIndex, boneIndex, 0, normalizedNextJoint[0]);
     oneFrameOfData.set(fingerIndex, boneIndex, 1, normalizedNextJoint[1]);
-    oneFrameOfData.set(fingerIndex, boneIndex, 2, 1);
+    oneFrameOfData.set(fingerIndex, boneIndex, 2, normalizedNextJoint[2]);
     oneFrameOfData.set(fingerIndex, boneIndex, 3, normalizedPrevJoint[0]);
     oneFrameOfData.set(fingerIndex, boneIndex, 4, normalizedPrevJoint[1]);
-    oneFrameOfData.set(fingerIndex, boneIndex, 5, 1);
+    oneFrameOfData.set(fingerIndex, boneIndex, 5, normalizedPrevJoint[2]);
 
 
 
