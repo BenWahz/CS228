@@ -20,21 +20,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a229be2-76d5-4e37-8790-9db638759ad7" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/trainingSets/train7RiceA.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trainingSets/train7RiceB.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trainingSets/train7RiceC.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/trainingSets/train7RiceD.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PredictGesture.html" beforeDir="false" afterPath="$PROJECT_DIR$/PredictGesture.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PredictGesture.js" beforeDir="false" afterPath="$PROJECT_DIR$/PredictGesture.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainingSets/train0ReckordGroten.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train0ReckordGroten.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainingSets/train0Wills.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train0Wills.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainingSets/train1Allison.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train1Allison.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainingSets/train4Faucher.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train4Faucher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainingSets/train4Makovsky.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train4Makovsky.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainingSets/train4Sheboy.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train4Sheboy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainingSets/train4Socia.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train4Socia.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trainingSets/train5Fekert.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train5Fekert.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainingSets/train0Bongard.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train0Bongard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainingSets/train0He.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train0He.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainingSets/train3Beattie.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train3Beattie.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainingSets/train3Bongard.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train3Bongard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainingSets/train3Riofrio.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train3Riofrio.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainingSets/train3Shi.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train3Shi.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainingSets/train5Faucher.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train5Faucher.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainingSets/train5Pooprasert.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train5Pooprasert.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trainingSets/train8Goldman.js" beforeDir="false" afterPath="$PROJECT_DIR$/trainingSets/train8Goldman.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,7 +70,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1603568814844</updated>
-      <workItem from="1603568817301" duration="4478000" />
+      <workItem from="1603568817301" duration="15168000" />
     </task>
     <servers />
   </component>
