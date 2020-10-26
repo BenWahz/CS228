@@ -18,17 +18,23 @@ var oneFrameOfData = nj.zeros([5,4,6]);
 var mean_pred_accuracy = 0;
 var num_predictions = 0;
 
+var programState = 0; //indicates whether program is waiting to see users hand (0) or can see at least one hand (1)
+
 //var predictedClassLabels = nj.zeros([numSamples]);
 
 
 Leap.loop(controllerOptions, function(frame)
 {
     clear();
-    // if (trainingCompleted == false)
-    // {
-    //     Train();
-    // }
-    HandleFrame(frame);
+    DetermineState(frame);
+    if (programState == 0)
+    {
+        HandleState0(frame);
+    }else if (programState == 1)
+    {
+        HandleState1(frame);
+    }
+
 
 
 
@@ -37,6 +43,40 @@ Leap.loop(controllerOptions, function(frame)
     // console.log(numFeatures);
 });
 
+function DetermineState(frame)
+{
+    if (frame.hands.length >= 1)
+    {
+        programState = 1;
+    }else
+    {
+        programState = 0;
+    }
+}
+
+function HandleState0(frame)
+{
+    TrainKNNIfNotDoneYet();
+    DrawImageToHelpUserPutHandOverDevice();
+}
+
+function HandleState1(frame)
+{
+    HandleFrame(frame);
+}
+
+function TrainKNNIfNotDoneYet()
+{
+    // if (trainingCompleted == false)
+    // {
+    //     Train();
+    // }
+}
+
+function DrawImageToHelpUserPutHandOverDevice()
+{
+    image(img, 0,0,window.innerWidth/2,window.innerHeight/2);
+}
 
 function Train()
 {
@@ -355,10 +395,8 @@ function Test()
         //var currentLabel = test.get(testingSampleIndex,-1); //classLabel
         var predictedLabel = knnClassifier.classify(currentTestingSample, GotResults);
 
-
         //console.log(predictedLabel.toString());
     //}
-
 }
 
 function GotResults(err, result)
@@ -404,6 +442,7 @@ function HandleHand(hand,frame,InteractionBox)
     }
 
 }
+
 
 function handleBone(bone, frame, fingerIndex, boneIndex, InteractionBox)
 {
