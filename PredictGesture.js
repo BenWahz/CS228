@@ -30,9 +30,14 @@ Leap.loop(controllerOptions, function(frame)
     if (programState == 0)
     {
         HandleState0(frame);
+
     }else if (programState == 1)
     {
         HandleState1(frame);
+
+    }else if(programState == 2)
+    {
+        HandleState2(frame);
     }
 
 
@@ -45,12 +50,15 @@ Leap.loop(controllerOptions, function(frame)
 
 function DetermineState(frame)
 {
-    if (frame.hands.length >= 1)
+    if (frame.hands.length == 0)
+    {
+        programState = 0;
+    }else if(HandIsUncentered())
     {
         programState = 1;
     }else
     {
-        programState = 0;
+        programState = 2;
     }
 }
 
@@ -63,6 +71,34 @@ function HandleState0(frame)
 function HandleState1(frame)
 {
     HandleFrame(frame);
+    if(HandIsTooFarToTheLeft())
+    {
+        DrawArrowRight();
+
+    }else if(HandIsTooFarToTheRight())
+    {
+        DrawArrowLeft();
+
+    }else if(HandIsTooFarBack())
+    {
+        DrawArrowForward();
+
+    }else if(HandIsTooFarForward())
+    {
+        DrawArrowBack();
+    }else if(HandIsTooLow())
+    {
+        DrawArrowUp();
+    }else if(HandIsTooHigh())
+    {
+        DrawArrowDown();
+    }
+}
+
+function HandleState2(frame)
+{
+    HandleFrame(frame);
+    //test()
 }
 
 function TrainKNNIfNotDoneYet()
@@ -76,6 +112,86 @@ function TrainKNNIfNotDoneYet()
 function DrawImageToHelpUserPutHandOverDevice()
 {
     image(img, 0,0,window.innerWidth/2,window.innerHeight/2);
+}
+
+function HandIsUncentered()
+{
+    return HandIsTooFarToTheLeft() || HandIsTooFarToTheRight() || HandIsTooFarForward() || HandIsTooFarBack() || HandIsTooLow() || HandIsTooHigh()
+}
+
+
+//Hand is too far where?
+function HandIsTooFarToTheLeft()
+{
+    xValues = oneFrameOfData.slice([],[],[0,6,3]);
+    var currentXMean = xValues.mean();
+    return currentXMean < 0.25;
+}
+
+function HandIsTooFarToTheRight()
+{
+    xValues = oneFrameOfData.slice([],[],[0,6,3]);
+    var currentXMean = xValues.mean();
+    return currentXMean > 0.75;
+}
+
+function HandIsTooHigh()
+{
+    yValues = oneFrameOfData.slice([],[],[1,6,3]);
+    var currentYMean = yValues.mean();
+    return currentYMean > 0.75;
+}
+
+function HandIsTooLow()
+{
+    yValues = oneFrameOfData.slice([],[],[1,6,3]);
+    var currentYMean = yValues.mean();
+    return currentYMean < 0.25;
+}
+
+function HandIsTooFarForward()
+{
+    zValues = oneFrameOfData.slice([],[],[2,6,3]);
+    var currentZMean = zValues.mean();
+    return currentZMean < 0.25;
+}
+
+function HandIsTooFarBack()
+{
+    zValues = oneFrameOfData.slice([],[],[2,6,3]);
+    var currentZMean = zValues.mean();
+    return currentZMean > 0.75;
+}
+
+//   ---------------- Draw Arrows ---------------------
+function DrawArrowRight()
+{
+    image(imgHandTooLeft, window.innerWidth/2,0,window.innerWidth/2,window.innerHeight/2);
+}
+
+function DrawArrowLeft()
+{
+    image(imgHandTooRight, window.innerWidth/2,0,window.innerWidth/2,window.innerHeight/2);
+}
+
+function DrawArrowForward()
+{
+    image(imgHandTooFarBack, window.innerWidth/2,0,window.innerWidth/2,window.innerHeight/2);
+}
+
+function DrawArrowBack()
+{
+    image(imgHandTooFarForward, window.innerWidth/2,0,window.innerWidth/2,window.innerHeight/2);
+}
+
+function DrawArrowUp()
+{
+    image(imgHandTooLow, window.innerWidth/2,0,window.innerWidth/2,window.innerHeight/2);
+}
+
+function DrawArrowDown()
+{
+    image(imgHandTooHigh, window.innerWidth/2,0,window.innerWidth/2,window.innerHeight/2);
 }
 
 function Train()
