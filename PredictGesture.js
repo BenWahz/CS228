@@ -48,6 +48,12 @@ Leap.loop(controllerOptions, function(frame)
     // console.log(numFeatures);
 });
 
+function SignIn()
+{
+    username = document.getElementById('username').value;
+    console.log("Signed In - " + username);
+}
+
 function DetermineState(frame)
 {
     if (frame.hands.length == 0)
