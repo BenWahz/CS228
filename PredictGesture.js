@@ -51,7 +51,15 @@ Leap.loop(controllerOptions, function(frame)
 function SignIn()
 {
     username = document.getElementById('username').value;
+    var list = document.getElementById('users');
+    var item = document.createElement('li');
+    item.innerHTML = String(username);
+    list.appendChild(item);
+    console.log(list.innerHTML);
+
     console.log("Signed In - " + username);
+
+    return false;
 }
 
 function DetermineState(frame)
