@@ -21,6 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7a229be2-76d5-4e37-8790-9db638759ad7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PredictGesture.html" beforeDir="false" afterPath="$PROJECT_DIR$/PredictGesture.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PredictGesture.js" beforeDir="false" afterPath="$PROJECT_DIR$/PredictGesture.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1603568814844</updated>
       <workItem from="1603568817301" duration="22915000" />
-      <workItem from="1604262236757" duration="5175000" />
+      <workItem from="1604262236757" duration="11917000" />
     </task>
     <servers />
   </component>
