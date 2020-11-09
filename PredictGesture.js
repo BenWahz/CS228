@@ -204,7 +204,7 @@ function TimeToSwitchDigits()
     let currentTime = new Date();
     changeInMilliseconds = currentTime - timeSinceLastDigitChange;
     changeInSeconds = changeInMilliseconds/1000;
-    if (changeInSeconds >= 5)
+    if (changeInSeconds >= 8)
     {
         timeSinceLastDigitChange = currentTime;
         return true;
@@ -679,6 +679,8 @@ function handleBone(bone, frame, fingerIndex, boneIndex, InteractionBox)
     //circle(scaledX, scaledY,50);
 
     //fingerSum = x + y + z + prevx + prevy + prevz;
+    var R = (1-mean_pred_accuracy) * 255;
+    var G = mean_pred_accuracy * 255;
 
     var normalizedNextJoint = frame.interactionBox.normalizePoint(bone.nextJoint,true);
     var normalizedPrevJoint = frame.interactionBox.normalizePoint(bone.prevJoint,true);
@@ -729,26 +731,26 @@ function handleBone(bone, frame, fingerIndex, boneIndex, InteractionBox)
 
 
 
-        if (bone.type == 0) {
-            stroke('rgb(220,220,220)');
+        if (bone.type === 0) {
+            stroke(R,G,0);
             strokeWeight(14);
             line(x, y, prevx, prevy);
 
         }
-        if (bone.type == 1) {
+        if (bone.type === 1) {
             //stroke('rbg(192,192,192)');
             strokeWeight(11);
             line(x, y, prevx, prevy);
 
         }
-        if (bone.type == 2) {
-            stroke('rgb(150,150,150)');
+        if (bone.type === 2) {
+            stroke(R,G,0);
             strokeWeight(8);
             line(x, y, prevx, prevy);
 
         }
-        if (bone.type == 3) {
-            stroke('rgb(70,70,70)');
+        if (bone.type === 3) {
+            stroke(R,G,0);
             strokeWeight(5);
             line(x, y, prevx, prevy);
         }
