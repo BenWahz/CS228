@@ -49,6 +49,68 @@ Leap.loop(controllerOptions, function(frame)
     // console.log(numFeatures);
 });
 
+function SignIn()
+{
+    username = document.getElementById('username').value;
+    var list = document.getElementById('users');
+
+
+
+    if (IsNewUser(username,list))
+    {
+        CreateNewUser(username,list);
+
+    }else
+    {
+        CreateSignInItem(username,list);
+    }
+    console.log("Signed In - " + username);
+
+    console.log(list.innerHTML);
+
+    return false;
+}
+
+function CreateNewUser(username,list)
+{
+    var item = document.createElement('li');
+    item.id = String(username) + "_name";
+    item.innerHTML = String(username);
+    list.appendChild(item);
+    item = document.createElement('li');
+    item.id = String(username) + "_signins";
+    item.innerHTML = 1;
+    list.appendChild(item);
+}
+
+function CreateSignInItem(username,list)
+{
+    var ID = String(username) + "_signins";
+    var listItem = document.getElementById(ID);
+    listItem.innerHTML = parseInt(listItem.innerHTML) + 1;
+}
+
+function IsNewUser(username, list)
+{
+   var usernameFound = false;
+   var users = list.children;
+
+   //console.log(username);
+   //print(users[0].innerHTML);
+   for (i = 0; i < users.length; i++)
+   {
+       if (users[i].innerHTML === username)
+       {
+           usernameFound = true;
+           // console.log(users[i]);
+           // console.log(users[i].innerHTML);
+       }
+   }
+   return usernameFound === false;
+
+
+}
+
 function DetermineState(frame)
 {
     if (frame.hands.length == 0)
