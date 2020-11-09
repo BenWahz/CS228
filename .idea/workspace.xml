@@ -22,6 +22,7 @@
     <list default="true" id="7a229be2-76d5-4e37-8790-9db638759ad7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PredictGesture.js" beforeDir="false" afterPath="$PROJECT_DIR$/PredictGesture.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prepareToDraw.js" beforeDir="false" afterPath="$PROJECT_DIR$/prepareToDraw.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1603568814844</updated>
       <workItem from="1603568817301" duration="21655000" />
+      <workItem from="1604941889753" duration="7686000" />
     </task>
     <servers />
   </component>
@@ -73,6 +75,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1561" y="336" width="672" height="678" key="search.everywhere.popup" timestamp="1603730125584">

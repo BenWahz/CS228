@@ -14,7 +14,8 @@ var trainingCompleted = false;
 
 var oneFrameOfData = nj.zeros([5,4,6]);
 
-
+var digitToShow = 0;
+var timeSinceLastDigitChange = new Date();
 var mean_pred_accuracy = 0;
 var num_predictions = 0;
 
@@ -97,16 +98,66 @@ function HandleState1(frame)
 
 function HandleState2(frame)
 {
+    DetermineWhetherToSwitchDigits();
+    DrawLowerRightPanel();
     HandleFrame(frame);
-    //test()
+    Test()
+}
+
+function DrawLowerRightPanel()
+{
+    if(digitToShow === 0)
+    {
+        //draw 0 example
+        image(example0,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+    }else
+    {
+        //draw 1 example
+        image(example1,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+    }
+}
+
+function DetermineWhetherToSwitchDigits()
+{
+    if(TimeToSwitchDigits())
+    {
+        SwitchDigits();
+    }
+}
+
+function SwitchDigits()
+{
+    if (digitToShow === 0)
+    {
+        digitToShow = 1;
+    }else if (digitToShow === 1)
+    {
+        digitToShow = 0;
+    }
+    num_predictions = 0;
+}
+
+function TimeToSwitchDigits()
+{
+    let currentTime = new Date();
+    changeInMilliseconds = currentTime - timeSinceLastDigitChange;
+    changeInSeconds = changeInMilliseconds/1000;
+    if (changeInSeconds >= 5)
+    {
+        timeSinceLastDigitChange = currentTime;
+        return true;
+    }else
+    {
+        return false;
+    }
 }
 
 function TrainKNNIfNotDoneYet()
 {
-    // if (trainingCompleted == false)
-    // {
-    //     Train();
-    // }
+    if (trainingCompleted === false)
+    {
+        Train();
+    }
 }
 
 function DrawImageToHelpUserPutHandOverDevice()
@@ -166,7 +217,7 @@ function HandIsTooFarBack()
 //   ---------------- Draw Arrows ---------------------
 function DrawArrowRight()
 {
-    image(imgHandTooLeft, window.innerWidth/2,0,window.innerWidth/2,window.innerHeight/2);
+    image(imgHandTooLeft, window.innerWidth/2, 0, window.innerWidth/2, window.innerHeight/2);
 }
 
 function DrawArrowLeft()
@@ -524,12 +575,13 @@ function GotResults(err, result)
     //c =
 
     num_predictions++;
-    //mean_pred_accuracy = (((num_predictions - 1)*mean_pred_accuracy) + (parseInt(result.label)==8))/num_predictions
+    mean_pred_accuracy = (((num_predictions - 1)*mean_pred_accuracy) + (parseInt(result.label)===digitToShow))/num_predictions
+
 
     //log n
     //log m
     //log c
-    console.log(num_predictions, result.label);
+    console.log(num_predictions, result.label, mean_pred_accuracy);
 }
 
 //draw();
