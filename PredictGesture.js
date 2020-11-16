@@ -21,6 +21,8 @@ var num_predictions = 0;
 
 var programState = 0; //indicates whether program is waiting to see users hand (0) or can see at least one hand (1)
 
+
+var user_accuracy = {"0": 0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0,  "9":0,}
 //var predictedClassLabels = nj.zeros([numSamples]);
 
 
@@ -172,12 +174,45 @@ function DrawLowerRightPanel()
     {
         //draw 0 example
         image(example0,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
-    }else
+    }else if (digitToShow === 1)
     {
         //draw 1 example
         image(example1,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+    }else if (digitToShow === 2)
+    {
+        //draw 2 example
+        image(example2,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+    }else if (digitToShow === 3)
+    {
+        //draw 3 example
+        image(example3,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+    }else if (digitToShow === 4)
+    {
+        //draw 4 example
+        image(example4,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+    }else if (digitToShow === 5)
+    {
+        //draw 5 example
+        image(example5,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+    }else if (digitToShow === 6)
+    {
+        //draw 6 example
+        image(example6,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+    }else if (digitToShow === 7)
+    {
+        //draw 7 example
+        image(example7,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+    }else if (digitToShow === 8)
+    {
+        //draw 8 example
+        image(example8,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+    }else if (digitToShow === 9) {
+        //draw 9 example
+        image(example9, window.innerWidth / 2, window.innerHeight / 2, window.innerWidth / 2, window.innerHeight / 2);
     }
 }
+
+
 
 function DetermineWhetherToSwitchDigits()
 {
@@ -189,13 +224,14 @@ function DetermineWhetherToSwitchDigits()
 
 function SwitchDigits()
 {
-    if (digitToShow === 0)
+    if(digitToShow !== 9)
     {
-        digitToShow = 1;
-    }else if (digitToShow === 1)
+        digitToShow += 1
+    }else
     {
-        digitToShow = 0;
+        digitToShow = 0
     }
+    //reset to 0 to reset mean pred accuracy
     num_predictions = 0;
 }
 
@@ -204,7 +240,7 @@ function TimeToSwitchDigits()
     let currentTime = new Date();
     changeInMilliseconds = currentTime - timeSinceLastDigitChange;
     changeInSeconds = changeInMilliseconds/1000;
-    if (changeInSeconds >= 8)
+    if (changeInSeconds >= 20 || user_accuracy[digitToShow.toString()] >= 0.60)
     {
         timeSinceLastDigitChange = currentTime;
         return true;
@@ -638,12 +674,13 @@ function GotResults(err, result)
 
     num_predictions++;
     mean_pred_accuracy = (((num_predictions - 1)*mean_pred_accuracy) + (parseInt(result.label)===digitToShow))/num_predictions
-
+    user_accuracy[digitToShow.toString()] = mean_pred_accuracy
 
     //log n
     //log m
     //log c
     console.log(num_predictions, result.label, mean_pred_accuracy);
+    console.log(user_accuracy)
 }
 
 //draw();
