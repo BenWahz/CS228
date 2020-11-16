@@ -30,15 +30,15 @@ Leap.loop(controllerOptions, function(frame)
 {
     clear();
     DetermineState(frame);
-    if (programState == 0)
+    if (programState === 0)
     {
         HandleState0(frame);
 
-    }else if (programState == 1)
+    }else if (programState === 1)
     {
         HandleState1(frame);
 
-    }else if(programState == 2)
+    }else if(programState === 2)
     {
         HandleState2(frame);
     }
@@ -115,7 +115,7 @@ function IsNewUser(username, list)
 
 function DetermineState(frame)
 {
-    if (frame.hands.length == 0)
+    if (frame.hands.length === 0)
     {
         programState = 0;
     }else if(HandIsUncentered())
@@ -227,6 +227,7 @@ function SwitchDigits()
     if(digitToShow !== 9)
     {
         digitToShow += 1
+    
     }else
     {
         digitToShow = 0
@@ -240,7 +241,7 @@ function TimeToSwitchDigits()
     let currentTime = new Date();
     changeInMilliseconds = currentTime - timeSinceLastDigitChange;
     changeInSeconds = changeInMilliseconds/1000;
-    if (changeInSeconds >= 20 || user_accuracy[digitToShow.toString()] >= 0.60)
+    if (changeInSeconds >= 20 || user_accuracy[digitToShow.toString()] >= 0.65)
     {
         timeSinceLastDigitChange = currentTime;
         return true;
