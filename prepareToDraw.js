@@ -24,4 +24,16 @@ function setup() {
 	example7 = loadImage('https://i.imgur.com/ewb9Zso.png');
 	example8 = loadImage('https://i.imgur.com/yTB5YGe.png');
 	example9 = loadImage('https://i.imgur.com/U7GI1sJ.png');
+
+
+	digit0 = loadImage('https://i.imgur.com/jPD1Pjb.png');
+	digit1 = loadImage('https://i.imgur.com/KSVnq5P.png');
+	digit2 = loadImage('https://i.imgur.com/KPQZUCF.png');
+	digit3 = loadImage('https://i.imgur.com/f3WoUHg.png');
+	digit4 = loadImage('https://i.imgur.com/odkaST4.png');
+	digit5 = loadImage('https://i.imgur.com/ulQAo2M.png');
+	digit6 = loadImage('https://i.imgur.com/o4Pknez.png');
+	digit7 = loadImage('https://i.imgur.com/AynXtcG.png');
+	digit8 = loadImage('https://i.imgur.com/ypE7JL8.png');
+	digit9 = loadImage('https://i.imgur.com/Mky1Ofa.png');
 }

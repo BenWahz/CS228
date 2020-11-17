@@ -23,7 +23,9 @@ var programState = 0; //indicates whether program is waiting to see users hand (
 
 var digitList = [0,1]
 
-var user_accuracy = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0,  "9":0};
+var userHasPracticed = false;
+
+var user_accuracy = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0.65,  "9":0};
 var user_num_pred = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0,  "9":0};
 //var predictedClassLabels = nj.zeros([numSamples]);
 
@@ -48,6 +50,8 @@ Leap.loop(controllerOptions, function(frame)
     // console.log(numSamples);
     // console.log(numFeatures);
 });
+
+
 
 function SignIn()
 {
@@ -172,46 +176,92 @@ function HandleState2(frame) //hand is center
 
 function DrawLowerRightPanel()
 {
-    if(digitToShow === 0)
+    if(userHasPracticed === false)
     {
-        //draw 0 example
-        image(example0,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
-    }else if (digitToShow === 1)
+        if(digitToShow === 0)
+        {
+            //draw 0 example
+            image(example0,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/3);
+        }else if (digitToShow === 1)
+        {
+            //draw 1 example
+            image(example1,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/3);
+        }else if (digitToShow === 2)
+        {
+            //draw 2 example
+            image(example2,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/3);
+        }else if (digitToShow === 3)
+        {
+            //draw 3 example
+            image(example3,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/3);
+        }else if (digitToShow === 4)
+        {
+            //draw 4 example
+            image(example4,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/3);
+        }else if (digitToShow === 5)
+        {
+            //draw 5 example
+            image(example5,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/3);
+        }else if (digitToShow === 6)
+        {
+            //draw 6 example
+            image(example6,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/3);
+        }else if (digitToShow === 7)
+        {
+            //draw 7 example
+            image(example7,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/3);
+        }else if (digitToShow === 8)
+        {
+            //draw 8 example
+            image(example8,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/3);
+        }else if (digitToShow === 9) {
+            //draw 9 example
+            image(example9, window.innerWidth / 2, window.innerHeight / 2, window.innerWidth / 2, window.innerHeight / 3);
+        }
+    }else
     {
-        //draw 1 example
-        image(example1,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
-    }else if (digitToShow === 2)
-    {
-        //draw 2 example
-        image(example2,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
-    }else if (digitToShow === 3)
-    {
-        //draw 3 example
-        image(example3,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
-    }else if (digitToShow === 4)
-    {
-        //draw 4 example
-        image(example4,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
-    }else if (digitToShow === 5)
-    {
-        //draw 5 example
-        image(example5,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
-    }else if (digitToShow === 6)
-    {
-        //draw 6 example
-        image(example6,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
-    }else if (digitToShow === 7)
-    {
-        //draw 7 example
-        image(example7,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
-    }else if (digitToShow === 8)
-    {
-        //draw 8 example
-        image(example8,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
-    }else if (digitToShow === 9) {
-        //draw 9 example
-        image(example9, window.innerWidth / 2, window.innerHeight / 2, window.innerWidth / 2, window.innerHeight / 2);
+        if(digitToShow === 0)
+        {
+            //draw 0 example
+            image(digit0,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+        }else if (digitToShow === 1)
+        {
+            //draw 1 example
+            image(digit1,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+        }else if (digitToShow === 2)
+        {
+            //draw 2 example
+            image(digit2,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+        }else if (digitToShow === 3)
+        {
+            //draw 3 example
+            image(digit3,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+        }else if (digitToShow === 4)
+        {
+            //draw 4 example
+            image(digit4,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+        }else if (digitToShow === 5)
+        {
+            //draw 5 example
+            image(digit5,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+        }else if (digitToShow === 6)
+        {
+            //draw 6 example
+            image(digit6,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+        }else if (digitToShow === 7)
+        {
+            //draw 7 example
+            image(digit7,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+        }else if (digitToShow === 8)
+        {
+            //draw 8 example
+            image(digit8,window.innerWidth/2,window.innerHeight/2, window.innerWidth/2, window.innerHeight/2);
+        }else if (digitToShow === 9) {
+            //draw 9 example
+            image(digit9, window.innerWidth / 2, window.innerHeight / 2, window.innerWidth / 2, window.innerHeight / 2);
+        }
     }
+
 }
 
 
@@ -220,7 +270,12 @@ function DetermineWhetherToAddDigit()
     var flag = true
     if(digitList.length === 10)
     {
-        return false
+        if(user_accuracy["9"] > 0.5)
+        {
+            userHasPracticed = true;
+        }
+        return false;
+
     }else {
         for (var key in user_accuracy) {
 
@@ -230,6 +285,7 @@ function DetermineWhetherToAddDigit()
         return flag
     }
 }
+
 function AddDigit()
 {
     //console.log("!!!!! CHECKING IF CAN ADD DIGIT !!!");
@@ -244,36 +300,34 @@ function DetermineWhetherToSwitchDigits()
 {
     if(TimeToSwitchDigits())
     {
-        SwitchDigits();
         AddDigit();
+        SwitchDigits();
+
     }
 }
 
 function SwitchDigits()
 {
-    if(digitToShow !== (digitList.length - 1))
+    //set num pred accuracy to the users recorded num_predictions
+    if(digitToShow !== (digitList.length - 1) || digitToShow !== 9)
     {
         digitToShow += 1;
-
-    }else
-    {
-        digitToShow = 0;
-    }
-
-    //set num pred accuracy to the users recorded num_predictions
-    if(digitToShow !== (digitList.length - 1))
-    {
         num_predictions = 0;
         mean_pred_accuracy = 0;
+
         num_predictions = user_num_pred[(digitToShow+1).toString()];
         mean_pred_accuracy = user_accuracy[(digitToShow + 1).toString()];
     }else
     {
+        digitToShow = 0;
         num_predictions = 0;
         mean_pred_accuracy = 0;
         num_predictions = user_num_pred["0"];
-        mean_pred_accuracy = user_accuracy["0"]
+        mean_pred_accuracy = user_accuracy["0"];
     }
+
+
+
     //num_predictions = 0;
     //mean_pred_accuracy = 0;
 }
@@ -283,14 +337,28 @@ function TimeToSwitchDigits()
     let currentTime = new Date();
     changeInMilliseconds = currentTime - timeSinceLastDigitChange;
     changeInSeconds = changeInMilliseconds/1000;
-    if (changeInSeconds > 12 || ((user_accuracy[digitToShow.toString()] >= 0.5)&& changeInSeconds > 2 ))  //determine here condition to switch digit
+    if(userHasPracticed === false)
     {
-        timeSinceLastDigitChange = currentTime;
-        return true;
+        if (changeInSeconds > 18 || ((user_accuracy[digitToShow.toString()] >= 0.5)) && changeInSeconds > 5)  //determine here condition to switch digit
+        {
+            timeSinceLastDigitChange = currentTime;
+            return true;
+        }else
+        {
+            return false;
+        }
     }else
     {
-        return false;
+        if (((user_accuracy[digitToShow.toString()] >= 0.5)))  //determine here condition to switch digit
+        {
+            timeSinceLastDigitChange = currentTime;
+            return true;
+        }else
+        {
+            return false;
+        }
     }
+
 }
 
 function DisplayTextInLowerLeft()
