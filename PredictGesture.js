@@ -283,7 +283,7 @@ function TimeToSwitchDigits()
     let currentTime = new Date();
     changeInMilliseconds = currentTime - timeSinceLastDigitChange;
     changeInSeconds = changeInMilliseconds/1000;
-    if (changeInSeconds > 4 && user_accuracy[digitToShow.toString()] >= 0.5)  //determine here condition to switch digit
+    if (changeInSeconds > 12 || ((user_accuracy[digitToShow.toString()] >= 0.5)&& changeInSeconds > 2 ))  //determine here condition to switch digit
     {
         timeSinceLastDigitChange = currentTime;
         return true;
