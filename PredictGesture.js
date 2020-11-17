@@ -23,8 +23,8 @@ var programState = 0; //indicates whether program is waiting to see users hand (
 
 var digitList = [0,1]
 
-var user_accuracy = {"0": 0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0,  "9":0,}
-var user_num_pred = {"0": 0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0,  "9":0,}
+var user_accuracy = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0,  "9":0};
+var user_num_pred = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0,  "9":0};
 //var predictedClassLabels = nj.zeros([numSamples]);
 
 
@@ -44,10 +44,6 @@ Leap.loop(controllerOptions, function(frame)
     {
         HandleState2(frame);
     }
-
-
-
-
     // console.log(irisData.toString());
     // console.log(numSamples);
     // console.log(numFeatures);
@@ -133,6 +129,8 @@ function HandleState0(frame)
 {
     TrainKNNIfNotDoneYet();
     DrawImageToHelpUserPutHandOverDevice();
+    //mean_pred_accuracy = 0;
+    num_predictions = 0;
 }
 
 function HandleState1(frame) //not centered
@@ -168,7 +166,7 @@ function HandleState2(frame) //hand is center
     DrawLowerRightPanel();
     HandleFrame(frame);
     Test()
-    AddDigit();
+
     //DisplayTextInLowerLeft();
 }
 
@@ -247,6 +245,7 @@ function DetermineWhetherToSwitchDigits()
     if(TimeToSwitchDigits())
     {
         SwitchDigits();
+        AddDigit();
     }
 }
 
@@ -254,25 +253,29 @@ function SwitchDigits()
 {
     if(digitToShow !== (digitList.length - 1))
     {
-        digitToShow += 1
+        digitToShow += 1;
 
     }else
     {
-        digitToShow = 0
+        digitToShow = 0;
     }
 
     //set num pred accuracy to the users recorded num_predictions
-    // if(digitToShow !== (digitList.length - 1))
-    // {
-    //     num_predictions = user_num_pred[(digitToShow+1).toString()];
-    //     //mean_pred_accuracy = user_accuracy[(digitToShow + 1).toString()];
-    // }else
-    // {
-    //    num_predictions = user_num_pred["0"];
-    //    //mean_pred_accuracy = user_accuracy["0"]
-    // }
-    num_predictions = 0;
-    mean_pred_accuracy = 0;
+    if(digitToShow !== (digitList.length - 1))
+    {
+        num_predictions = 0;
+        mean_pred_accuracy = 0;
+        num_predictions = user_num_pred[(digitToShow+1).toString()];
+        mean_pred_accuracy = user_accuracy[(digitToShow + 1).toString()];
+    }else
+    {
+        num_predictions = 0;
+        mean_pred_accuracy = 0;
+        num_predictions = user_num_pred["0"];
+        mean_pred_accuracy = user_accuracy["0"]
+    }
+    //num_predictions = 0;
+    //mean_pred_accuracy = 0;
 }
 
 function TimeToSwitchDigits()
@@ -280,7 +283,7 @@ function TimeToSwitchDigits()
     let currentTime = new Date();
     changeInMilliseconds = currentTime - timeSinceLastDigitChange;
     changeInSeconds = changeInMilliseconds/1000;
-    if (changeInSeconds > 10 ||user_accuracy[digitToShow.toString()] >= 0.5)  //determine here condition to switch digit
+    if (changeInSeconds > 4 && user_accuracy[digitToShow.toString()] >= 0.5)  //determine here condition to switch digit
     {
         timeSinceLastDigitChange = currentTime;
         return true;
@@ -729,9 +732,9 @@ function GotResults(err, result)
 
 
     console.log(num_predictions, result.label, mean_pred_accuracy);
-    console.log(digitList);
-    console.log(user_accuracy);
-    console.log(user_num_pred);
+    //console.log(digitList);
+    //console.log(user_accuracy);
+    //console.log(user_num_pred);
     //DisplayTextInLowerLeft(result.label);
 }
 
