@@ -22,7 +22,7 @@ var num_predictions = 0;
 var programState = 0; //indicates whether program is waiting to see users hand (0) or can see at least one hand (1)
 
 var digitList = [0,1]
-
+var digitIndex = 0;
 var userHasPracticed = false;
 
 var user_accuracy = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0.65,  "9":0};
@@ -279,7 +279,7 @@ function DetermineWhetherToAddDigit()
     }else {
         for (var key in user_accuracy) {
 
-            if (user_accuracy[key] < 0.5 && parseInt(key) < digitList.length)   ///threshold to reach before adding more digits to sign
+            if (user_accuracy[key] < 0.275 && parseInt(key) < digitList.length)   ///threshold to reach before adding more digits to sign
                 flag = false
         }
         return flag
@@ -309,21 +309,26 @@ function DetermineWhetherToSwitchDigits()
 function SwitchDigits()
 {
     //set num pred accuracy to the users recorded num_predictions
-    if(digitToShow !== (digitList.length - 1) || digitToShow !== 9)
+
+    if(digitToShow !== digitList.length - 1)
     {
         digitToShow += 1;
         num_predictions = 0;
-        mean_pred_accuracy = 0;
+        //digitIndex += 1;
 
-        num_predictions = user_num_pred[(digitToShow+1).toString()];
-        mean_pred_accuracy = user_accuracy[(digitToShow + 1).toString()];
+        mean_pred_accuracy = 0;
+        num_predictions = 0;
+        //num_predictions = user_num_pred[(digitToShow+1).toString()];
+        //mean_pred_accuracy = user_accuracy[(digitToShow + 1).toString()];
+
     }else
     {
+
         digitToShow = 0;
         num_predictions = 0;
         mean_pred_accuracy = 0;
-        num_predictions = user_num_pred["0"];
-        mean_pred_accuracy = user_accuracy["0"];
+        num_predictions = 0;
+
     }
 
 
@@ -339,7 +344,7 @@ function TimeToSwitchDigits()
     changeInSeconds = changeInMilliseconds/1000;
     if(userHasPracticed === false)
     {
-        if (changeInSeconds > 18 || ((user_accuracy[digitToShow.toString()] >= 0.5)) && changeInSeconds > 5)  //determine here condition to switch digit
+        if (changeInSeconds > 10 || ((user_accuracy[digitToShow.toString()] >= 0.275)) && changeInSeconds > 4)  //determine here condition to switch digit
         {
             timeSinceLastDigitChange = currentTime;
             return true;
@@ -750,6 +755,18 @@ function Train()
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 8);
         console.log(features);
+
+        features = train8Wills.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 8);
+        console.log(features);
+
+        features = train8Timsina.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 8);
+        console.log(features);
         
         //TRAIN 9
         features = train9.pick(null,null,null,i);
@@ -799,8 +816,8 @@ function GotResults(err, result)
     //log c
 
 
-    console.log(num_predictions, result.label, mean_pred_accuracy);
-    //console.log(digitList);
+    console.log(num_predictions,digitIndex, digitToShow, result.label, mean_pred_accuracy);
+    console.log(digitList);
     //console.log(user_accuracy);
     //console.log(user_num_pred);
     //DisplayTextInLowerLeft(result.label);
