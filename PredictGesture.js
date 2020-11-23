@@ -14,7 +14,7 @@ var trainingCompleted = false;
 
 var oneFrameOfData = nj.zeros([5,4,6]);
 
-var digitToShow = 0;
+
 var timeSinceLastDigitChange = new Date();
 var mean_pred_accuracy = 0;
 var num_predictions = 0;
@@ -27,6 +27,10 @@ var userHasPracticed = false;
 
 var user_accuracy = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0.65,  "9":0};
 var user_num_pred = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0,  "9":0};
+
+var currentEquationData = [1,2,3];
+var digitToShow = currentEquationData[2];
+
 //var predictedClassLabels = nj.zeros([numSamples]);
 
 
@@ -34,6 +38,9 @@ Leap.loop(controllerOptions, function(frame)
 {
     clear();
     DetermineState(frame);
+    //console.log(num_predictions, programState)
+    //generateSumEquation();
+
     if (programState === 0)
     {
         HandleState0(frame);
@@ -42,16 +49,25 @@ Leap.loop(controllerOptions, function(frame)
     {
         HandleState1(frame);
 
-    }else if(programState === 2)
+    }else if(programState === 2) //ready to play
     {
+        DrawEquation();
         HandleState2(frame);
+        //playMath();
     }
     // console.log(irisData.toString());
     // console.log(numSamples);
     // console.log(numFeatures);
 });
 
-
+function generateSumEquation()
+{
+    var answer = Math.floor(Math.random() * (10));
+    var x = Math.floor(Math.random() * answer);
+    var y  = answer - x;
+    console.log(x + " + " + y + " = " + answer);
+    currentEquationData = [x, y,answer];
+}
 
 function SignIn()
 {
@@ -117,6 +133,7 @@ function IsNewUser(username, list)
 
 function DetermineState(frame)
 {
+    //console.log("Determinging State...")
     if (frame.hands.length === 0)
     {
         programState = 0;
@@ -139,9 +156,10 @@ function HandleState0(frame)
 
 function HandleState1(frame) //not centered
 {
-    HandleFrame(frame);
+    console.log("Handling State 1...");
     if(HandIsTooFarToTheLeft())
     {
+        console.log("Hand is Too Far Left");
         DrawArrowRight();
 
     }else if(HandIsTooFarToTheRight())
@@ -162,17 +180,113 @@ function HandleState1(frame) //not centered
     {
         DrawArrowDown();
     }
+    HandleFrame(frame);
 }
 
 function HandleState2(frame) //hand is center
 {
     DetermineWhetherToSwitchDigits();
-    DrawLowerRightPanel();
+    //DrawLowerRightPanel();
+
     HandleFrame(frame);
     Test()
 
     //DisplayTextInLowerLeft();
 }
+
+function DrawEquation()
+{
+    var xval = currentEquationData[0];
+    var yval = currentEquationData[1];
+
+    //plus sign
+    image(plusSign, (window.innerWidth/4)*2,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+
+    //     draw X
+    if(xval === 0)
+    {
+        //draw 0 example
+        image(digit0,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 1)
+    {
+        //draw 1 example
+        image(digit1,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 2)
+    {
+        //draw 2 example
+        image(digit2,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 3)
+    {
+        //draw 3 example
+        image(digit3,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 4)
+    {
+        //draw 4 example
+        image(digit4,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 5)
+    {
+        //draw 5 example
+        image(digit5,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 6)
+    {
+        //draw 6 example
+        image(digit6,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 7)
+    {
+        //draw 7 example
+        image(digit7,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 8)
+    {
+        //draw 8 example
+        image(digit8,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 9) {
+        //draw 9 example
+        image(digit9, (window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }
+
+    // draw Y
+    if(yval === 0)
+    {
+        //draw 0 example
+        image(digit0,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (yval === 1)
+    {
+        //draw 1 example
+        image(digit1,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (yval === 2)
+    {
+        //draw 2 example
+        image(digit2,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (yval === 3)
+    {
+        //draw 3 example
+        image(digit3,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (yval === 4)
+    {
+        //draw 4 example
+        image(digit4,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (yval === 5)
+    {
+        //draw 5 example
+        image(digit5,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (yval === 6)
+    {
+        //draw 6 example
+        image(digit6,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (yval === 7)
+    {
+        //draw 7 example
+        image(digit7,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (yval === 8)
+    {
+        //draw 8 example
+        image(digit8,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (yval === 9) {
+        //draw 9 example
+        image(digit9, (window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }
+}
+
 
 function DrawLowerRightPanel()
 {
@@ -270,7 +384,7 @@ function DetermineWhetherToAddDigit()
     var flag = true
     if(digitList.length === 10)
     {
-        if(user_accuracy["9"] > 0.5)
+        if(user_accuracy["9"] > 0.25)
         {
             userHasPracticed = true;
         }
@@ -291,7 +405,7 @@ function AddDigit()
     //console.log("!!!!! CHECKING IF CAN ADD DIGIT !!!");
     if(DetermineWhetherToAddDigit())
     {
-        console.log("!!!!! ADDING DIGIT !!!");
+        //console.log("!!!!! ADDING DIGIT !!!");
         digitList.push(digitList.length);
     }
 }
@@ -300,7 +414,7 @@ function DetermineWhetherToSwitchDigits()
 {
     if(TimeToSwitchDigits())
     {
-        AddDigit();
+        //AddDigit();
         SwitchDigits();
 
     }
@@ -309,27 +423,34 @@ function DetermineWhetherToSwitchDigits()
 function SwitchDigits()
 {
     //set num pred accuracy to the users recorded num_predictions
-
-    if(digitToShow !== digitList.length - 1)
+    if(mean_pred_accuracy > 0.4)
     {
-        digitToShow += 1;
+        generateSumEquation();
+        digitToShow = currentEquationData[2];
         num_predictions = 0;
-        //digitIndex += 1;
-
-        mean_pred_accuracy = 0;
-        num_predictions = 0;
-        //num_predictions = user_num_pred[(digitToShow+1).toString()];
-        //mean_pred_accuracy = user_accuracy[(digitToShow + 1).toString()];
-
-    }else
-    {
-
-        digitToShow = 0;
-        num_predictions = 0;
-        mean_pred_accuracy = 0;
-        num_predictions = 0;
-
     }
+
+    // if(digitToShow !== digitList.length - 1)
+    // {
+    //     //digitToShow += 1;
+    //     num_predictions = 0;
+    //     //digitIndex += 1;
+    //
+    //     mean_pred_accuracy = 0;
+    //     num_predictions = 0;
+    //     //num_predictions = user_num_pred[(digitToShow+1).toString()];
+    //     //mean_pred_accuracy = user_accuracy[(digitToShow + 1).toString()];
+    //
+    // }else
+    // {
+    //
+    //     //digitToShow = 0;
+    //     num_predictions = 0;
+    //     mean_pred_accuracy = 0;
+    //     num_predictions = 0;
+    //
+    // }
+
 
 
 
@@ -387,51 +508,55 @@ function DrawImageToHelpUserPutHandOverDevice()
 
 function HandIsUncentered()
 {
-    return HandIsTooFarToTheLeft() || HandIsTooFarToTheRight() || HandIsTooFarForward() || HandIsTooFarBack() || HandIsTooLow() || HandIsTooHigh()
+    //console.log("Checking if hand is uncentered");
+
+    return (HandIsTooFarToTheLeft() || HandIsTooFarToTheRight() || HandIsTooFarForward() || HandIsTooFarBack() || HandIsTooLow() || HandIsTooHigh());
 }
 
 
 //Hand is too far where?
 function HandIsTooFarToTheLeft()
 {
-    xValues = oneFrameOfData.slice([],[],[0,6,3]);
+    //console.log("Checking if hand is TOO FAR LEFT");
+    let xValues = oneFrameOfData.slice([],[],[0,6,3]);
     var currentXMean = xValues.mean();
-    return currentXMean < 0.25;
+    return (currentXMean < 0.25);
 }
 
 function HandIsTooFarToTheRight()
 {
-    xValues = oneFrameOfData.slice([],[],[0,6,3]);
+    let xValues = oneFrameOfData.slice([],[],[0,6,3]);
     var currentXMean = xValues.mean();
-    return currentXMean > 0.75;
+    return (currentXMean > 0.75);
 }
 
 function HandIsTooHigh()
 {
-    yValues = oneFrameOfData.slice([],[],[1,6,3]);
+    let yValues = oneFrameOfData.slice([],[],[1,6,3]);
     var currentYMean = yValues.mean();
-    return currentYMean > 0.75;
+    return (currentYMean > 0.75);
 }
 
 function HandIsTooLow()
 {
-    yValues = oneFrameOfData.slice([],[],[1,6,3]);
+    let yValues = oneFrameOfData.slice([],[],[1,6,3]);
     var currentYMean = yValues.mean();
-    return currentYMean < 0.25;
+    return (currentYMean < 0.25);
 }
 
 function HandIsTooFarForward()
 {
-    zValues = oneFrameOfData.slice([],[],[2,6,3]);
+    let zValues = oneFrameOfData.slice([],[],[2,6,3]);
     var currentZMean = zValues.mean();
-    return currentZMean < 0.25;
+    return (currentZMean < 0.25);
 }
 
 function HandIsTooFarBack()
 {
-    zValues = oneFrameOfData.slice([],[],[2,6,3]);
+    let zValues = oneFrameOfData.slice([],[],[2,6,3]);
     var currentZMean = zValues.mean();
-    return currentZMean > 0.75;
+    //console.log("Z Mean = " + currentZMean);
+    return (currentZMean > 0.75);
 }
 
 //   ---------------- Draw Arrows ---------------------
@@ -807,7 +932,7 @@ function GotResults(err, result)
     //c =
 
     num_predictions++;
-    mean_pred_accuracy = (((num_predictions - 1)*mean_pred_accuracy) + (parseInt(result.label)===digitToShow))/num_predictions;
+    mean_pred_accuracy = (((num_predictions - 1) * mean_pred_accuracy) + (parseInt(result.label)===digitToShow))/num_predictions;
     user_accuracy[digitToShow.toString()] = mean_pred_accuracy
     user_num_pred[digitToShow.toString()] = num_predictions++
 
@@ -816,8 +941,8 @@ function GotResults(err, result)
     //log c
 
 
-    console.log(num_predictions,digitIndex, digitToShow, result.label, mean_pred_accuracy);
-    console.log(digitList);
+    console.log(num_predictions, digitToShow, result.label, mean_pred_accuracy);
+    //console.log(digitList);
     //console.log(user_accuracy);
     //console.log(user_num_pred);
     //DisplayTextInLowerLeft(result.label);
@@ -857,7 +982,7 @@ function handleBone(bone, frame, fingerIndex, boneIndex, InteractionBox)
 
     //fingerSum = x + y + z + prevx + prevy + prevz;
     var R = (1-mean_pred_accuracy) * 255;
-    var G = mean_pred_accuracy * 255;
+    var G = mean_pred_accuracy * 700;
 
     var normalizedNextJoint = frame.interactionBox.normalizePoint(bone.nextJoint,true);
     var normalizedPrevJoint = frame.interactionBox.normalizePoint(bone.prevJoint,true);
@@ -907,6 +1032,9 @@ function handleBone(bone, frame, fingerIndex, boneIndex, InteractionBox)
 
 
 
+    if(G > 255){
+        G = 255;
+    }
 
         if (bone.type === 0) {
             stroke(R,G,0);

@@ -1,6 +1,23 @@
 var img;
 
 
+// Object.defineProperty(window, 'text', {
+// 	value: function() {
+// 		console.log("TEXT WAS CALLED");
+// 	},
+// 	writable: false
+// });
+
+let myFont;
+// function preload() {
+// 	myFont = loadFont('assets/inconsolata.otf');
+// 	textSize(32);
+// 	text('word', 10, 30);
+// 	fill(0, 102, 153);
+// 	text('word', 10, 60);
+// 	fill(0, 102, 153, 51);
+// 	text('word', 10, 90);
+// }
 
 
 function setup() {
@@ -25,6 +42,7 @@ function setup() {
 	example8 = loadImage('https://i.imgur.com/yTB5YGe.png');
 	example9 = loadImage('https://i.imgur.com/U7GI1sJ.png');
 
+	plusSign = loadImage('https://i.imgur.com/UUgE1Y8.png');
 
 	digit0 = loadImage('https://i.imgur.com/jPD1Pjb.png');
 	digit1 = loadImage('https://i.imgur.com/KSVnq5P.png');
@@ -36,4 +54,6 @@ function setup() {
 	digit7 = loadImage('https://i.imgur.com/AynXtcG.png');
 	digit8 = loadImage('https://i.imgur.com/ypE7JL8.png');
 	digit9 = loadImage('https://i.imgur.com/Mky1Ofa.png');
+
+
 }
