@@ -42,7 +42,8 @@ function setup() {
 	example8 = loadImage('https://i.imgur.com/yTB5YGe.png');
 	example9 = loadImage('https://i.imgur.com/U7GI1sJ.png');
 
-	plusSign = loadImage('https://i.imgur.com/UUgE1Y8.png');
+	plusSign = loadImage('https://i.imgur.com/O9kedAu.jpg');
+	minusSign = loadImage('https://i.imgur.com/Gv5NcuW.jpg');
 
 	digit0 = loadImage('https://i.imgur.com/jPD1Pjb.png');
 	digit1 = loadImage('https://i.imgur.com/KSVnq5P.png');
@@ -54,6 +55,17 @@ function setup() {
 	digit7 = loadImage('https://i.imgur.com/AynXtcG.png');
 	digit8 = loadImage('https://i.imgur.com/ypE7JL8.png');
 	digit9 = loadImage('https://i.imgur.com/Mky1Ofa.png');
+	digit10 = loadImage('https://i.imgur.com/pSBsMDb.jpg');
+	digit11 = loadImage('https://i.imgur.com/I3fU0C6.jpg');
+	digit12 = loadImage('https://i.imgur.com/ytCEzaS.jpg');
+	digit13 = loadImage('https://i.imgur.com/mQ5swOE.png');
+	digit14 = loadImage('https://i.imgur.com/bCwL6ck.jpg');
+	digit15 = loadImage('https://i.imgur.com/Xzgbztm.jpg');
+	digit16 = loadImage('https://i.imgur.com/beq40FZ.jpg');
+	digit17 = loadImage('https://i.imgur.com/NpxaDV7.png');
+	digit18 = loadImage('https://i.imgur.com/4hAhst1.png');
+
+
 
 
 }

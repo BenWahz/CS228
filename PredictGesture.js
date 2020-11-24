@@ -25,12 +25,14 @@ var digitList = [0,1]
 var digitIndex = 0;
 var userHasPracticed = false;
 
-var user_accuracy = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0.65,  "9":0};
+var user_accuracy = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0};
 var user_num_pred = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0,  "9":0};
 
-var currentEquationData = [1,2,3];
-var digitToShow = currentEquationData[2];
+var currentEquationDataAddition = [1,2,3];
+var currentEquationDataSubtraction = [3,2,1];
+var digitToShow = currentEquationDataAddition[2];
 
+var additionSwitch = true;
 //var predictedClassLabels = nj.zeros([numSamples]);
 
 
@@ -66,7 +68,16 @@ function generateSumEquation()
     var x = Math.floor(Math.random() * answer);
     var y  = answer - x;
     console.log(x + " + " + y + " = " + answer);
-    currentEquationData = [x, y,answer];
+    currentEquationDataAddition = [x, y,answer];
+}
+
+function generateSubtractionEquation()
+{
+    var answer = Math.floor(Math.random() * (10));
+    var y = Math.floor(Math.random() * answer);
+    var x  = answer + y;
+    console.log(x + " - " + y + " = " + answer);
+    currentEquationDataSubtraction = [x, y, answer];
 }
 
 function SignIn()
@@ -196,11 +207,23 @@ function HandleState2(frame) //hand is center
 
 function DrawEquation()
 {
-    var xval = currentEquationData[0];
-    var yval = currentEquationData[1];
+    var xval;
+    var yval;
 
     //plus sign
-    image(plusSign, (window.innerWidth/4)*2,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    if(additionSwitch === true)
+    {
+        xval = currentEquationDataAddition[0];
+        yval = currentEquationDataAddition[1];
+        image(plusSign, (window.innerWidth/4)*2,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }
+    else
+    {
+        xval = currentEquationDataSubtraction[0];
+        yval = currentEquationDataSubtraction[1];
+        image(minusSign, (window.innerWidth/4)*2,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }
+
 
     //     draw X
     if(xval === 0)
@@ -242,6 +265,43 @@ function DrawEquation()
     }else if (xval === 9) {
         //draw 9 example
         image(digit9, (window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }
+    else if(xval === 10)
+    {
+        //draw 0 example
+        image(digit10,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 11)
+    {
+        //draw 1 example
+        image(digit11,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 12)
+    {
+        //draw 2 example
+        image(digit12,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 13)
+    {
+        //draw 3 example
+        image(digit13,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 14)
+    {
+        //draw 4 example
+        image(digit14,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 15)
+    {
+        //draw 5 example
+        image(digit15,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 16)
+    {
+        //draw 6 example
+        image(digit16,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 17)
+    {
+        //draw 7 example
+        image(digit17,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+    }else if (xval === 18)
+    {
+        //draw 8 example
+        image(digit18,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
     }
 
     // draw Y
@@ -423,11 +483,23 @@ function DetermineWhetherToSwitchDigits()
 function SwitchDigits()
 {
     //set num pred accuracy to the users recorded num_predictions
-    if(mean_pred_accuracy > 0.4)
+    var r = Math.floor(Math.random()*10);   //Set this to random to determine randomly whether to show addition or subtraction
+    console.log(r)
+    if(mean_pred_accuracy > 0.3)
     {
-        generateSumEquation();
-        digitToShow = currentEquationData[2];
-        num_predictions = 0;
+        if(r%2 === 0)
+        {
+            additionSwitch = true;
+            generateSumEquation();
+            digitToShow = currentEquationDataAddition[2];
+            num_predictions = 0;
+        }else{
+            additionSwitch = false;
+            generateSubtractionEquation();
+            digitToShow = currentEquationDataSubtraction[2];
+            num_predictions = 0;
+        }
+
     }
 
     // if(digitToShow !== digitList.length - 1)
@@ -745,11 +817,11 @@ function Train()
         knnClassifier.addExample(features, 4);
         console.log(features);
 
-        features = train4OBrien.pick(null,null,null,i);
-        CenterData();
-        features = features.reshape(120).tolist();
-        knnClassifier.addExample(features, 4);
-        console.log(features);
+        // features = train4OBrien.pick(null,null,null,i);
+        // CenterData();
+        // features = features.reshape(120).tolist();
+        // knnClassifier.addExample(features, 4);
+        // console.log(features);
 
         features = train4Makovsky.pick(null,null,null,i);
         CenterData();
@@ -763,17 +835,17 @@ function Train()
         knnClassifier.addExample(features, 4);
         console.log(features);
 
-        // features = train4Sheboy.pick(null,null,null,i);
-        // CenterData();
-        // features = features.reshape(120).tolist();
-        // knnClassifier.addExample(features, 4);
-        // console.log(features);
+        features = train4Sheboy.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 4);
+        console.log(features);
 
-        // features = train4Bongard.pick(null,null,null,i);
-        // CenterData();
-        // features = features.reshape(120).tolist();
-        // knnClassifier.addExample(features, 4);
-        // console.log(features);
+        features = train4Bongard.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 4);
+        console.log(features);
 
 
 
@@ -785,6 +857,12 @@ function Train()
         console.log(features);
 
         features = train5Fekert.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 5);
+        console.log(features);
+
+        features = train5Manian.pick(null,null,null,i);
         CenterData();
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 5);
@@ -892,6 +970,12 @@ function Train()
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 8);
         console.log(features);
+
+        features = train8Bongard.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 8);
+        console.log(features);
         
         //TRAIN 9
         features = train9.pick(null,null,null,i);
@@ -899,7 +983,30 @@ function Train()
         features = features.reshape(120).tolist();
         knnClassifier.addExample(features, 9);
         console.log(features);
-        
+
+        features = train9McLaughlin.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 9);
+        console.log(features);
+
+        features = train9ILee.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 9);
+        console.log(features);
+
+        features = train9He.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 9);
+        console.log(features);
+
+        features = train9JClark.pick(null,null,null,i);
+        CenterData();
+        features = features.reshape(120).tolist();
+        knnClassifier.addExample(features, 9);
+        console.log(features);
         
     }
     console.log("I have been trained")
@@ -941,7 +1048,7 @@ function GotResults(err, result)
     //log c
 
 
-    console.log(num_predictions, digitToShow, result.label, mean_pred_accuracy);
+    console.log(num_predictions, digitToShow, result.label, additionSwitch, currentEquationDataAddition,currentEquationDataSubtraction);
     //console.log(digitList);
     //console.log(user_accuracy);
     //console.log(user_num_pred);
