@@ -35,6 +35,10 @@ var digitToShow = currentEquationDataAddition[2];
 var additionSwitch = true;
 //var predictedClassLabels = nj.zeros([numSamples]);
 var currentScore = 0;
+var playerHighScore;
+var allTimeHighScore = 0;
+var highestScoringPlayer = "";
+
 
 Leap.loop(controllerOptions, function(frame)
 {
@@ -54,6 +58,7 @@ Leap.loop(controllerOptions, function(frame)
     }else if(programState === 2) //ready to play
     {
         DrawEquation();
+        //DisplayScoreboard();
         HandleState2(frame);
         //playMath();
     }
@@ -64,8 +69,7 @@ Leap.loop(controllerOptions, function(frame)
 
 function DisplayScoreboard()
 {
-    var styleSheet = document.createElement('style');
-    styleSheet.innerHTML = '.bottomLeft {'
+
 }
 
 function generateSumEquation()
@@ -104,10 +108,28 @@ function SignIn()
     console.log("Signed In - " + username);
 
     console.log(list.innerHTML);
-
+    DetermineHighestScoringPlayer(list);
     return false;
 }
 
+function IsNewUser(username, list)
+{
+    var usernameFound = false;
+    var users = list.children;
+
+    //console.log(username);
+    //print(users[0].innerHTML);
+    for (i = 0; i < users.length; i++)
+    {
+        if (users[i].innerHTML === username)
+        {
+            usernameFound = true;
+            // console.log(users[i]);
+            // console.log(users[i].innerHTML);
+        }
+    }
+    return usernameFound === false;
+}
 function CreateNewUser(username,list)
 {
     var item = document.createElement('li');
@@ -136,8 +158,34 @@ function updateHighScore(username,list)
     var listItem = document.getElementById(ID);
     listItem.innerHTML = parseInt(listItem.innerHTML) + 1;
     console.log(list.innerHTML);
+    DetermineHighestScoringPlayer(list);
 }
 
+function DetermineHighestScoringPlayer(list)
+{
+    console.log("Determinging Highest Scoring player...");
+    console.log(list);
+    var users = list.children;
+    var tempScore = 0;
+    for (i = 0; i < users.length; i++)
+    {
+        //console.log(users[i].id);
+        if (users[i].id.includes("_HighScore"))
+        {
+            tempScore = users[i].innerHTML;
+            //console.log("tempScpre: ", tempScore);
+            if (tempScore > allTimeHighScore)
+            {
+                allTimeHighScore = users[i].innerHTML;
+                highestScoringPlayer = users[i-2].innerHTML;
+
+            }
+        }
+
+    }
+    console.log("Highest Scoring Player is ",highestScoringPlayer," with ", allTimeHighScore, " points!");
+
+}
 
 function CreateSignInItem(username,list)
 {
@@ -146,26 +194,6 @@ function CreateSignInItem(username,list)
     listItem.innerHTML = parseInt(listItem.innerHTML) + 1;
 }
 
-function IsNewUser(username, list)
-{
-   var usernameFound = false;
-   var users = list.children;
-
-   //console.log(username);
-   //print(users[0].innerHTML);
-   for (i = 0; i < users.length; i++)
-   {
-       if (users[i].innerHTML === username)
-       {
-           usernameFound = true;
-           // console.log(users[i]);
-           // console.log(users[i].innerHTML);
-       }
-   }
-   return usernameFound === false;
-
-
-}
 
 function DetermineState(frame)
 {
@@ -577,11 +605,13 @@ function TimeToSwitchDigits()
             currentScore += 1;
             //increaseScore(username,list);
             console.log("SCORE INCREASED!!")
+
             if(currentScore >= getHighScore(username,list))
             {
                 updateHighScore(username,list)
                 console.log("!!!  NEW HIGH SCORE !!!");
             }
+            console.log(highestScoringPlayer, allTimeHighScore);
             return true;
         }else
         {
@@ -612,6 +642,7 @@ function TrainKNNIfNotDoneYet()
     if (trainingCompleted === false)
     {
         Train();
+
     }
 }
 
@@ -1085,8 +1116,8 @@ function GotResults(err, result)
 
     num_predictions++;
     mean_pred_accuracy = (((num_predictions - 1) * mean_pred_accuracy) + (parseInt(result.label)===digitToShow))/num_predictions;
-    user_accuracy[digitToShow.toString()] = mean_pred_accuracy
-    user_num_pred[digitToShow.toString()] = num_predictions++
+    user_accuracy[digitToShow.toString()] = mean_pred_accuracy;
+    user_num_pred[digitToShow.toString()] = num_predictions++;
 
     //log n
     //log m
