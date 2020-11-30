@@ -34,7 +34,7 @@ var digitToShow = currentEquationDataAddition[2];
 
 var additionSwitch = true;
 //var predictedClassLabels = nj.zeros([numSamples]);
-
+var currentScore = 0;
 
 Leap.loop(controllerOptions, function(frame)
 {
@@ -61,6 +61,12 @@ Leap.loop(controllerOptions, function(frame)
     // console.log(numSamples);
     // console.log(numFeatures);
 });
+
+function DisplayScoreboard()
+{
+    var styleSheet = document.createElement('style');
+    styleSheet.innerHTML = '.bottomLeft {'
+}
 
 function generateSumEquation()
 {
@@ -112,7 +118,26 @@ function CreateNewUser(username,list)
     item.id = String(username) + "_signins";
     item.innerHTML = 1;
     list.appendChild(item);
+
+    item = document.createElement('li');
+    item.id = String(username) + "_HighScore";
+    item.innerHTML = 0;
+    list.appendChild(item);
 }
+function getHighScore(username,list)
+{
+    var ID = String(username) + "_HighScore";
+    var listItem = document.getElementById(ID);
+    return parseInt(listItem.innerHTML);
+}
+function updateHighScore(username,list)
+{
+    var ID = String(username) + "_HighScore";
+    var listItem = document.getElementById(ID);
+    listItem.innerHTML = parseInt(listItem.innerHTML) + 1;
+    console.log(list.innerHTML);
+}
+
 
 function CreateSignInItem(username,list)
 {
@@ -205,6 +230,7 @@ function HandleState2(frame) //hand is center
     //DisplayTextInLowerLeft();
 }
 
+//for math game
 function DrawEquation()
 {
     var xval;
@@ -347,7 +373,7 @@ function DrawEquation()
     }
 }
 
-
+//for learning mode
 function DrawLowerRightPanel()
 {
     if(userHasPracticed === false)
@@ -485,7 +511,7 @@ function SwitchDigits()
     //set num pred accuracy to the users recorded num_predictions
     var r = Math.floor(Math.random()*10);   //Set this to random to determine randomly whether to show addition or subtraction
     console.log(r)
-    if(mean_pred_accuracy > 0.3)
+    if(mean_pred_accuracy > 0.275)
     {
         if(r%2 === 0)
         {
@@ -535,11 +561,27 @@ function TimeToSwitchDigits()
     let currentTime = new Date();
     changeInMilliseconds = currentTime - timeSinceLastDigitChange;
     changeInSeconds = changeInMilliseconds/1000;
+
+    var username = document.getElementById('username').value;
+    var list = document.getElementById('users');
+
     if(userHasPracticed === false)
     {
-        if (changeInSeconds > 10 || ((user_accuracy[digitToShow.toString()] >= 0.275)) && changeInSeconds > 4)  //determine here condition to switch digit
+        if (changeInSeconds >= 7.5)  //determine here condition to switch digit
         {
             timeSinceLastDigitChange = currentTime;
+            return true;
+        }else if ((user_accuracy[digitToShow.toString()] >= 0.275) && changeInSeconds >= 2.5)
+        {
+            timeSinceLastDigitChange = currentTime;
+            currentScore += 1;
+            //increaseScore(username,list);
+            console.log("SCORE INCREASED!!")
+            if(currentScore >= getHighScore(username,list))
+            {
+                updateHighScore(username,list)
+                console.log("!!!  NEW HIGH SCORE !!!");
+            }
             return true;
         }else
         {
@@ -1032,6 +1074,9 @@ function Test()
 
 function GotResults(err, result)
 {
+
+    var username = document.getElementById('username').value;
+    var list = document.getElementById('users');
     //predictedClassLabels[err] = parseInt(result.label);
 
     //n = num_predictions
@@ -1048,7 +1093,7 @@ function GotResults(err, result)
     //log c
 
 
-    console.log(num_predictions, digitToShow, result.label, additionSwitch, currentEquationDataAddition,currentEquationDataSubtraction);
+    console.log(num_predictions, digitToShow, result.label,"Current Score: ", currentScore , "High Score: ", getHighScore(username, list));
     //console.log(digitList);
     //console.log(user_accuracy);
     //console.log(user_num_pred);

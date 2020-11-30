@@ -65,7 +65,11 @@ function setup() {
 	digit17 = loadImage('https://i.imgur.com/NpxaDV7.png');
 	digit18 = loadImage('https://i.imgur.com/4hAhst1.png');
 
-
+	championMedal = loadImage("https://i.imgur.com/D45DT7l.png");
+	leaderBoardLogo = loadImage("https://i.imgur.com/9jsuYgJ.jpg");
+	currentPointsLogo = loadImage("https://i.imgur.com/bxpMSLo.png");
+	crownLogo = loadImage("https://i.imgur.com/CJw73WY.jpg");
+	highScoreStar = loadImage("https://i.imgur.com/VkXC5nx.png");
 
 
 }
