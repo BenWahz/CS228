@@ -38,8 +38,8 @@ var currentScore = 0;
 var playerHighScore;
 var allTimeHighScore = 0;
 var highestScoringPlayer = "";
-
-
+var HTMLCreated = false;
+//CreateHTMLScore;
 Leap.loop(controllerOptions, function(frame)
 {
     clear();
@@ -50,26 +50,102 @@ Leap.loop(controllerOptions, function(frame)
     if (programState === 0)
     {
         HandleState0(frame);
+        // if(HTMLCreated)
+        // {
+        //     hideScoreBoard();
+        // }
 
     }else if (programState === 1)
     {
         HandleState1(frame);
+        // if(HTMLCreated)
+        // {
+        //     hideScoreBoard();
+        // }
 
     }else if(programState === 2) //ready to play
     {
         DrawEquation();
-        //DisplayScoreboard();
+        DisplayScoreboard();
         HandleState2(frame);
-        //playMath();
+
     }
     // console.log(irisData.toString());
     // console.log(numSamples);
     // console.log(numFeatures);
 });
 
+
+
 function DisplayScoreboard()
 {
+    image(championMedal, 0,(window.innerHeight/6)*3, window.innerWidth/6, window.innerHeight/6);
+    image(highScoreStar, 0,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
+    image(currentPointsLogo, 0,(window.innerHeight/6)*5, window.innerWidth/6, window.innerHeight/6);
+    //showScoreBoard();
+    UpdateScoreBoard();
 
+}
+
+function UpdateScoreBoard() {
+
+    if (!HTMLCreated) {
+        CreateHTMLScore();
+        HTMLCreated = true;
+    }
+    // ID = String(username) + "_signins";
+    // listItem = document.getElementById(ID);
+    document.getElementById("header").innerHTML = highestScoringPlayer + " " + allTimeHighScore + "<br>" + "<br>" + "<br>" + getHighScore(document.getElementById('username').value) + "<br>" + "<br>" + "<br>" + currentScore;
+    //document.getElementById("header").innerHTML =  "<br>" + "<br>" + "<br>" + getHighScore(document.getElementById('username').value) + "<br>" + "<br>" + "<br>" + currentScore;
+}
+
+function hideScoreBoard()
+{
+    document.getElementById("header").setAttribute("style", "color:white");
+}
+
+function showScoreBoard()
+{
+    document.getElementById("header").setAttribute("style", "color:black");
+}
+
+function CreateHTMLScore()
+{
+    var sheet = document.createElement('style')
+    sheet.innerHTML = '.resultsContainer {\n' +
+        '        position: absolute;\n' +
+        '        bottom: '+ String((window.innerHeight / 2) - 600) + ';\n' +
+        '        left: '+ 350 + ';\n' +
+        '    }';
+    document.body.appendChild(sheet);
+    sheet = document.createElement('style')
+    sheet .innerHTML = '.bottomleft {\n' +
+        //'        position: absolute;\n' +
+        //'        bottom: '+ String((window.innerHeight / 2) + 400) + ';\n' +
+        //'        left: '+ 100 + ';\n' +
+        '        display: block;\n' +
+        '        font-size: 65px;\n' +
+        '    }';
+    document.body.appendChild(sheet);
+    var container = document.createElement('div');
+    container.classList.add("resultsContainer");
+    var header = document.createElement('div');
+    var curr = document.createElement('div');
+    var last = document.createElement('div');
+    var usersTable = document.createElement('div');
+    header.classList.add("bottomleft");
+    header.id = "header";
+    curr.classList.add("bottomleft");
+    curr.id = "curr";
+    last.classList.add("bottomleft");
+    last.id = "last";
+    usersTable.classList.add("bottomleft");
+    usersTable.id = "usersTable"
+    container.appendChild(header);
+    container.appendChild(curr);
+    container.appendChild(last);
+    container.appendChild(usersTable);
+    document.body.appendChild(container);
 }
 
 function generateSumEquation()
@@ -158,6 +234,7 @@ function updateHighScore(username,list)
     var listItem = document.getElementById(ID);
     listItem.innerHTML = parseInt(listItem.innerHTML) + 1;
     console.log(list.innerHTML);
+    playerHighScore = listItem.innerHTML;
     DetermineHighestScoringPlayer(list);
 }
 
@@ -269,13 +346,13 @@ function DrawEquation()
     {
         xval = currentEquationDataAddition[0];
         yval = currentEquationDataAddition[1];
-        image(plusSign, (window.innerWidth/4)*2,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(plusSign, (window.innerWidth/6)*4,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }
     else
     {
         xval = currentEquationDataSubtraction[0];
         yval = currentEquationDataSubtraction[1];
-        image(minusSign, (window.innerWidth/4)*2,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(minusSign, (window.innerWidth/6)*4,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }
 
 
@@ -283,121 +360,121 @@ function DrawEquation()
     if(xval === 0)
     {
         //draw 0 example
-        image(digit0,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit0,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 1)
     {
         //draw 1 example
-        image(digit1,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit1,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 2)
     {
         //draw 2 example
-        image(digit2,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit2,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 3)
     {
         //draw 3 example
-        image(digit3,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit3,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 4)
     {
         //draw 4 example
-        image(digit4,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit4,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 5)
     {
         //draw 5 example
-        image(digit5,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit5,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 6)
     {
         //draw 6 example
-        image(digit6,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit6,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 7)
     {
         //draw 7 example
-        image(digit7,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit7,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 8)
     {
         //draw 8 example
-        image(digit8,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit8,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 9) {
         //draw 9 example
-        image(digit9, (window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit9, (window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }
     else if(xval === 10)
     {
         //draw 0 example
-        image(digit10,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit10,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 11)
     {
         //draw 1 example
-        image(digit11,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit11,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 12)
     {
         //draw 2 example
-        image(digit12,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit12,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 13)
     {
         //draw 3 example
-        image(digit13,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit13,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 14)
     {
         //draw 4 example
-        image(digit14,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit14,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 15)
     {
         //draw 5 example
-        image(digit15,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit15,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 16)
     {
         //draw 6 example
-        image(digit16,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit16,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 17)
     {
         //draw 7 example
-        image(digit17,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit17,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (xval === 18)
     {
         //draw 8 example
-        image(digit18,(window.innerWidth/4),(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit18,(window.innerWidth/6)*3,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }
 
     // draw Y
     if(yval === 0)
     {
         //draw 0 example
-        image(digit0,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit0,(window.innerWidth/6)*5,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (yval === 1)
     {
         //draw 1 example
-        image(digit1,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit1,(window.innerWidth/6)*5,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (yval === 2)
     {
         //draw 2 example
-        image(digit2,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit2,(window.innerWidth/6)*5,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (yval === 3)
     {
         //draw 3 example
-        image(digit3,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit3,(window.innerWidth/6)*5,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (yval === 4)
     {
         //draw 4 example
-        image(digit4,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit4,(window.innerWidth/6)*5,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (yval === 5)
     {
         //draw 5 example
-        image(digit5,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit5,(window.innerWidth/6)*5,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (yval === 6)
     {
         //draw 6 example
-        image(digit6,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit6,(window.innerWidth/6)*5,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (yval === 7)
     {
         //draw 7 example
-        image(digit7,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit7,(window.innerWidth/6)*5,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (yval === 8)
     {
         //draw 8 example
-        image(digit8,(window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit8,(window.innerWidth/6)*5,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }else if (yval === 9) {
         //draw 9 example
-        image(digit9, (window.innerWidth/4)*3,(window.innerHeight/4)*3, window.innerWidth/4, window.innerHeight/4);
+        image(digit9, (window.innerWidth/6)*5,(window.innerHeight/6)*4, window.innerWidth/6, window.innerHeight/6);
     }
 }
 
@@ -539,8 +616,7 @@ function SwitchDigits()
     //set num pred accuracy to the users recorded num_predictions
     var r = Math.floor(Math.random()*10);   //Set this to random to determine randomly whether to show addition or subtraction
     console.log(r)
-    if(mean_pred_accuracy > 0.275)
-    {
+
         if(r%2 === 0)
         {
             additionSwitch = true;
@@ -554,8 +630,7 @@ function SwitchDigits()
             num_predictions = 0;
         }
 
-    }
-
+    //for LEARN mode
     // if(digitToShow !== digitList.length - 1)
     // {
     //     //digitToShow += 1;
@@ -595,7 +670,7 @@ function TimeToSwitchDigits()
 
     if(userHasPracticed === false)
     {
-        if (changeInSeconds >= 7.5)  //determine here condition to switch digit
+        if (changeInSeconds >= 8)  //determine here condition to switch digit
         {
             timeSinceLastDigitChange = currentTime;
             return true;
@@ -606,12 +681,13 @@ function TimeToSwitchDigits()
             //increaseScore(username,list);
             console.log("SCORE INCREASED!!")
 
-            if(currentScore >= getHighScore(username,list))
+            if(currentScore > getHighScore(username,list))
             {
                 updateHighScore(username,list)
                 console.log("!!!  NEW HIGH SCORE !!!");
             }
             console.log(highestScoringPlayer, allTimeHighScore);
+            UpdateScoreBoard();
             return true;
         }else
         {
